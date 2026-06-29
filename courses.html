@@ -323,7 +323,7 @@
            HERO
         ───────────────────────────────────────────── */
         .courses-hero {
-            padding: 9rem 4rem 7rem;
+            padding: 5rem 4rem 7rem;
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
@@ -996,6 +996,31 @@
             line-height: 1.6;
         }
 
+        .footer-social-icons {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .footer-social-icons a {
+            color: inherit;
+            opacity: 0.7;
+            transition: opacity 0.3s, transform 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-social-icons a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .footer-social-icons svg {
+            width: 18px;
+            height: 18px;
+        }
+
         .footer-bottom {
             display: flex;
             justify-content: space-between;
@@ -1059,6 +1084,31 @@
         }
 
         @media (max-width: 1024px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+
+            .email-link,
+            .menu-links,
+            .social-icons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .courses-hero {
+                padding: 5rem 2rem 5rem;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .courses-hero h1 {
+                font-size: 12vw;
+                letter-spacing: -2px;
+            }
+
             .track-row {
                 grid-template-columns: 1fr;
                 min-height: auto;
@@ -1082,33 +1132,8 @@
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 1.5rem 2rem;
-            }
-
-            .email-link,
-            .menu-links,
-            .social-icons {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
             .breadcrumb-bar {
                 padding: 1rem 2rem;
-            }
-
-            .courses-hero {
-                padding: 7rem 2rem 5rem;
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .courses-hero h1 {
-                font-size: 12vw;
-                letter-spacing: -2px;
             }
 
             .filter-bar {
@@ -1172,6 +1197,10 @@
                 gap: 1.5rem;
                 align-items: flex-start;
             }
+
+            .mobile-socials { display: flex; gap: 1.5rem; align-items: center; }
+            .mobile-socials a { color: inherit; transition: transform 0.3s, opacity 0.3s; display: inline-flex; align-items: center; }
+            .mobile-socials a:hover { transform: translateY(-2px); opacity: 0.7; }
         }
     </style>
 </head>
@@ -1723,28 +1752,44 @@
                 </ul>
             </div>
 
-            <div class="footer-links">
-                <h4>Connect</h4>
-                <ul>
-                    <li><a href="404.html">Twitter</a></li>
-                    <li><a href="404.html">LinkedIn</a></li>
-                    <li><a href="404.html">Instagram</a></li>
-                    <li><a href="404.html">GitHub</a></li>
-                </ul>
-            </div>
-
             <div class="footer-info">
                 <h4>Stackly HQ</h4>
                 <p>1404 Tech Park Ave<br>Salem, TN 636001<br>India</p>
                 <a href="404.html">hello@stackly.com</a>
                 <p>+91 12345 67890</p>
             </div>
+
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <div class="footer-social-icons">
+                    <a href="404.html" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                    </a>
+                    <a href="404.html" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                    <a href="404.html" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a href="404.html" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="footer-bottom">
             <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
             <div class="copyright">© 2026 STACKLY EDUCATION™</div>
-            <div class="mobile-socials" style="display:none; color:var(--text-color);">
-                <span>Ig</span><span>Tw</span><span>Fb</span>
+            <div class="mobile-socials" style="display: none; gap: 1.5rem; align-items: center;">
+                <a href="404.html" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; display: block;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="404.html" aria-label="Twitter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; display: block;"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                </a>
+                <a href="404.html" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; display: block;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
             </div>
         </div>
     </footer>
@@ -1879,7 +1924,7 @@
         /* ── 8. Responsive footer socials ── */
         function handleResize() {
             const soc = document.querySelector('.mobile-socials');
-            if (soc) soc.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+            if (soc) soc.style.display = window.innerWidth <= 1024 ? 'flex' : 'none';
         }
         window.addEventListener('resize', handleResize);
         handleResize();
