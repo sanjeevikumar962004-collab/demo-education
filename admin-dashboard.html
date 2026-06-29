@@ -59,6 +59,34 @@
             height: 100vh;
             z-index: 100;
             transition: all 0.4s ease;
+            overflow-y: auto;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        /* Mobile Sidebar Backdrop Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 99; /* Just below sidebar and header */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .sidebar-top {
@@ -294,6 +322,7 @@
             border: 1px solid var(--border-color);
             padding: 2.5rem;
             background-color: var(--bg-color);
+            min-width: 0;
         }
 
         .table-header {
@@ -353,7 +382,8 @@
         }
 
         .registry-table {
-            width: 100%;
+            width: max-content;
+            min-width: 100%;
             border-collapse: collapse;
             text-align: left;
         }
@@ -366,6 +396,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--gray-color);
+            white-space: nowrap;
         }
 
         .registry-table td {
@@ -373,6 +404,7 @@
             border-bottom: 1px solid var(--border-color);
             font-size: 0.85rem;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .registry-table tbody tr {
@@ -410,6 +442,7 @@
             border: 1px solid var(--border-color);
             padding: 2.5rem;
             justify-content: space-between;
+            min-width: 0;
         }
 
         .chart-header {
@@ -536,7 +569,7 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
             }
-            .table-area {
+            .table-area, .analytics-side {
                 padding: 1.5rem;
             }
             .search-container {
@@ -566,7 +599,7 @@
             .metric-card {
                 padding: 1.25rem;
             }
-            .table-area {
+            .table-area, .analytics-side {
                 padding: 1rem;
             }
             .table-header h3 {
@@ -605,6 +638,9 @@
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
     </div>
+
+    <!-- Mobile Sidebar Drawer Backdrop Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
     <!-- Navigation Sidebar -->
     <aside class="sidebar" id="sidebar">
@@ -907,7 +943,12 @@
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebar');
             const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('sidebarOverlay');
             const isOpen = sidebar.classList.toggle('active');
+            
+            if (overlay) {
+                overlay.classList.toggle('active', isOpen);
+            }
             
             btn.innerHTML = isOpen ? `
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

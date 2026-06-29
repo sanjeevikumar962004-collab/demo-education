@@ -60,6 +60,34 @@
             height: 100vh;
             z-index: 100;
             transition: all 0.4s ease;
+            overflow-y: auto;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        /* Mobile Sidebar Backdrop Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 99; /* Just below sidebar and header */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .sidebar-top {
@@ -613,6 +641,9 @@
         </button>
     </div>
 
+    <!-- Mobile Sidebar Drawer Backdrop Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
     <!-- Navigation Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-top">
@@ -893,7 +924,12 @@
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebar');
             const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('sidebarOverlay');
             const isOpen = sidebar.classList.toggle('active');
+            
+            if (overlay) {
+                overlay.classList.toggle('active', isOpen);
+            }
             
             btn.innerHTML = isOpen ? `
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

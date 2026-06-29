@@ -511,6 +511,23 @@
             border-color: var(--ink);
         }
 
+        /* Validation error styling */
+        .error-msg {
+            color: #ff3b30;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+            display: none;
+        }
+        .form-group.has-error input,
+        .form-group.has-error textarea,
+        .form-group.has-error select {
+            border-bottom-color: #ff3b30;
+        }
+        .form-group.has-error label {
+            color: #ff3b30 !important;
+        }
+
         .form-group label {
             position: absolute;
             left: 0;
@@ -1397,10 +1414,11 @@
             </div>
 
             <div class="contact-form-container">
-                <form id="contactForm" onsubmit="handleFormSubmit(event)">
-                    <div class="form-group">
+                <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
+                    <div class="form-group" id="nameGroup">
                         <input type="text" id="formName" placeholder="Name" required autocomplete="name">
                         <label for="formName">Full Name</label>
+                        <div class="error-msg" id="nameError">Full name is required.</div>
                     </div>
                     <div class="form-group">
                         <input type="email" id="formEmail" placeholder="Email" required autocomplete="email">
@@ -1691,12 +1709,98 @@
         /* ── 5. Contact Form Submit ── */
         function handleFormSubmit(e) {
             e.preventDefault();
-            window.location.href = '404.html';
+            
+            const nameInput = document.getElementById('formName');
+            const emailInput = document.getElementById('formEmail');
+            const subjectInput = document.getElementById('formSubject');
+            const messageInput = document.getElementById('formMessage');
+            
+            const nameGroup = document.getElementById('nameGroup');
+            const emailGroup = emailInput.closest('.form-group');
+            const subjectGroup = subjectInput.closest('.form-group');
+            const messageGroup = messageInput.closest('.form-group');
+            
+            const nameError = document.getElementById('nameError');
+            
+            let isValid = true;
+            
+            // Name validation: alphabetic characters and spaces only
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (!nameInput.value.trim()) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Full name is required.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else if (!nameRegex.test(nameInput.value.trim())) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Name should contain alphabetic characters only.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else {
+                nameGroup.classList.remove('has-error');
+                nameError.style.display = 'none';
+            }
+            
+            // Email Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+                emailGroup.classList.add('has-error');
+                isValid = false;
+            } else {
+                emailGroup.classList.remove('has-error');
+            }
+            
+            // Subject Validation
+            if (!subjectInput.value) {
+                subjectGroup.classList.add('has-error');
+                isValid = false;
+            } else {
+                subjectGroup.classList.remove('has-error');
+            }
+            
+            // Message Validation
+            if (!messageInput.value.trim()) {
+                messageGroup.classList.add('has-error');
+                isValid = false;
+            } else {
+                messageGroup.classList.remove('has-error');
+            }
+            
+            if (isValid) {
+                // Show success block instead of redirect to 404
+                const form = document.getElementById('contactForm');
+                const success = document.getElementById('successBlock');
+                
+                form.style.opacity = '0';
+                form.style.transform = 'translateY(-20px)';
+                form.style.transition = 'all 0.4s ease';
+                
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    success.style.display = 'block';
+                    setTimeout(() => {
+                        success.classList.add('show');
+                    }, 50);
+                }, 400);
+            }
         }
 
         function resetContactForm() {
             const form = document.getElementById('contactForm');
             const success = document.getElementById('successBlock');
+            
+            // Clear validation error styling
+            document.getElementById('nameGroup').classList.remove('has-error');
+            document.getElementById('nameError').style.display = 'none';
+            
+            const groups = [
+                document.getElementById('formEmail').closest('.form-group'),
+                document.getElementById('formSubject').closest('.form-group'),
+                document.getElementById('formMessage').closest('.form-group')
+            ];
+            groups.forEach(g => {
+                if (g) g.classList.remove('has-error');
+            });
 
             success.classList.remove('show');
             setTimeout(() => {

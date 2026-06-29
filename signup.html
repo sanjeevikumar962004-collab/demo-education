@@ -703,8 +703,15 @@
             let isValid = true;
             
             // Name validation
+            const nameRegex = /^[A-Za-z\s]+$/;
             if (!nameInput.value.trim()) {
                 nameGroup.classList.add('has-error');
+                nameError.textContent = 'Full name is required.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else if (!nameRegex.test(nameInput.value.trim())) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Name should contain alphabetic characters only.';
                 nameError.style.display = 'block';
                 isValid = false;
             } else {
