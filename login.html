@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Stackly. — Online Education</title>
+    <meta name="description" content="Log in to your Stackly student or admin account to access courses, track your learning journey, and analyze performance.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --gray-color: #888888;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --error-color: #ff3b30;
+            --success-color: #34c759;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Initial state before load */
+        .auth-wrapper {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        body.loaded .auth-wrapper {
+            opacity: 1;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease;
+        }
+
+        .loader-text {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            background: linear-gradient(45deg, #2b1055, #7597de, #b35d7b, #2b1055);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: liquidText 4s ease-in-out infinite;
+        }
+
+        @keyframes liquidText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Split-screen Layout */
+        .auth-container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .auth-image-side {
+            flex: 1.2;
+            position: relative;
+            background-color: var(--text-color);
+            overflow: hidden;
+        }
+
+        .auth-image-side > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.75;
+            transition: transform 12s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .auth-container:hover .auth-image-side > img {
+            transform: scale(1.05);
+        }
+
+        .auth-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(17,17,17,0.7) 0%, rgba(17,17,17,0.3) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4rem;
+            color: #ffffff;
+            z-index: 2;
+        }
+
+        .auth-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .auth-quote h2 {
+            font-size: clamp(2rem, 3.5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-quote p {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            max-width: 480px;
+        }
+
+        .auth-footer {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .auth-form-side {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 6rem;
+            background-color: var(--bg-color);
+            position: relative;
+        }
+
+        .form-header {
+            margin-bottom: 3rem;
+        }
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .form-header p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Role Switcher tabs */
+        .role-switcher {
+            display: flex;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2.5rem;
+            background-color: var(--light-gray);
+            border-radius: 0px;
+            overflow: hidden;
+            padding: 4px;
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 0.9rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-align: center;
+        }
+
+        .role-tab.active {
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Form styling */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 0;
+            border: none;
+            border-bottom: 1.5px solid var(--border-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-bottom-color: var(--text-color);
+        }
+
+        .form-group label {
+            position: absolute;
+            left: 0;
+            top: 0.8rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-color);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Label floating effect */
+        .form-group input:focus ~ label,
+        .form-group input:not(:placeholder-shown) ~ label {
+            top: -1.2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-color);
+        }
+
+        /* Error States */
+        .form-group.has-error input {
+            border-bottom-color: var(--error-color);
+        }
+
+        .form-group.has-error label {
+            color: var(--error-color);
+        }
+
+        .error-msg {
+            color: var(--error-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+            display: none;
+        }
+
+        /* Password Visibility Toggle */
+        .pwd-toggle {
+            position: absolute;
+            right: 0;
+            top: 0.7rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-color);
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .pwd-toggle svg {
+            width: 20px;
+            height: 20px;
+            transition: color 0.3s;
+        }
+
+        .pwd-toggle:hover {
+            color: var(--text-color);
+        }
+
+        /* Remember Me & Forgot Password Row */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            cursor: pointer;
+            accent-color: var(--text-color);
+        }
+
+        .forgot-link {
+            color: var(--gray-color);
+            transition: color 0.3s;
+        }
+
+        .forgot-link:hover {
+            color: var(--text-color);
+        }
+
+        /* Action Buttons */
+        .btn-submit {
+            width: 100%;
+            padding: 1.4rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .btn-submit:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        .form-switch-prompt {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-color);
+        }
+
+        .form-switch-prompt a {
+            color: var(--text-color);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        /* Back to site */
+        .back-to-site {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .back-to-site:hover {
+            color: var(--text-color);
+        }
+
+        .back-to-site svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+        }
+
+        .back-to-site:hover svg {
+            transform: translateX(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .auth-form-side {
+                padding: 4rem 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-image-side {
+                display: none;
+            }
+            .auth-form-side {
+                flex: 1;
+                padding: 6rem 2.5rem;
+            }
+            .back-to-site {
+                top: 1.5rem;
+                right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-text">STACKLY</div>
+    </div>
+
+    <!-- Auth Wrapper -->
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            
+            <!-- Left Image Side -->
+            <div class="auth-image-side">
+                <img src="images/login.webp" alt="Education background">
+                <div class="auth-image-overlay">
+                    <a href="index.html" class="auth-logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+                    <div class="auth-quote">
+                        <h2 id="dynamicQuote">Learn what the world demands.</h2>
+                        <p id="dynamicDesc">Gain access to expert courses in AI, Full-Stack Web Development, Data Science, and UI/UX design. Build your skills with professional guidelines.</p>
+                    </div>
+                    <div class="auth-footer">© 2026 STACKLY EDUCATION™</div>
+                </div>
+            </div>
+
+            <!-- Right Form Side -->
+            <div class="auth-form-side">
+                
+                <!-- Back Link -->
+                <a href="index.html" class="back-to-site">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Back to home
+                </a>
+
+                <div class="form-header">
+                    <h1>Welcome back.</h1>
+                    <p>Enter your details to log in and resume your learning stack.</p>
+                </div>
+
+                <!-- Role Switcher -->
+                <div class="role-switcher">
+                    <button type="button" class="role-tab active" data-role="user" onclick="switchRole('user')">User Portal</button>
+                    <button type="button" class="role-tab" data-role="admin" onclick="switchRole('admin')">Admin Console</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form" onsubmit="handleLoginSubmit(event)" novalidate>
+                    
+                    <!-- Email field -->
+                    <div class="form-group" id="emailGroup">
+                        <input type="email" id="loginEmail" placeholder=" " required>
+                        <label for="loginEmail">Email Address</label>
+                        <div class="error-msg" id="emailError">Please enter a valid email address.</div>
+                    </div>
+
+                    <!-- Password field -->
+                    <div class="form-group" id="passwordGroup">
+                        <input type="password" id="loginPassword" placeholder=" " required minlength="8">
+                        <label for="loginPassword">Password</label>
+                        <button type="button" class="pwd-toggle" id="pwdToggleBtn" onclick="togglePasswordVisibility()">
+                            <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                        <div class="error-msg" id="passwordError">Password must be at least 8 characters long.</div>
+                    </div>
+
+                    <!-- Remember & Forgot Options -->
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember email</span>
+                        </label>
+                        <a href="forgotpassword.html" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit" id="submitBtn">Log In</button>
+
+                    <!-- Account Switch Prompt -->
+                    <div class="form-switch-prompt" id="signupPrompt">
+                        Don't have an account? <a href="signup.html">Sign up</a>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Page loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    document.body.classList.add('loaded');
+                }, 600);
+            }, 600);
+            
+            // Check rememberMe state
+            const savedEmail = localStorage.getItem('remembered_email');
+            if (savedEmail) {
+                document.getElementById('loginEmail').value = savedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        // Toggle password view
+        let passwordVisible = false;
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordVisible) {
+                passwordField.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                `;
+            } else {
+                passwordField.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"></line>
+                `;
+            }
+            passwordVisible = !passwordVisible;
+        }
+
+        // Swtich Role (User / Admin)
+        let activeRole = 'user';
+        function switchRole(role) {
+            if (activeRole === role) return;
+            
+            activeRole = role;
+            
+            // Tabs active states
+            document.querySelectorAll('.role-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.getAttribute('data-role') === role);
+            });
+            
+            // Edit UI elements depending on selection
+            const submitBtn = document.getElementById('submitBtn');
+            const signupPrompt = document.getElementById('signupPrompt');
+            const dynamicQuote = document.getElementById('dynamicQuote');
+            const dynamicDesc = document.getElementById('dynamicDesc');
+            
+            if (role === 'admin') {
+                submitBtn.textContent = 'Enter Admin Console';
+                signupPrompt.style.visibility = 'hidden'; // Hide signup since admins cannot register themselves
+                dynamicQuote.textContent = 'Manage the platform.';
+                dynamicDesc.textContent = 'Track student stats, manage courses, monitor system load, and analyze revenue metrics from the premium console panel.';
+            } else {
+                submitBtn.textContent = 'Log In';
+                signupPrompt.style.visibility = 'visible';
+                dynamicQuote.textContent = 'Learn what the world demands.';
+                dynamicDesc.textContent = 'Gain access to expert courses in AI, Full-Stack Web Development, Data Science, and UI/UX design. Build your skills with professional guidelines.';
+            }
+            
+            // Clear current validation error styling
+            document.getElementById('emailGroup').classList.remove('has-error');
+            document.getElementById('passwordGroup').classList.remove('has-error');
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+        }
+
+        // Submit and Validate Form
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('loginEmail');
+            const passwordInput = document.getElementById('loginPassword');
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            
+            const emailGroup = document.getElementById('emailGroup');
+            const passwordGroup = document.getElementById('passwordGroup');
+            
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            
+            let isValid = true;
+            
+            // Email Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput.value.trim()) {
+                emailGroup.classList.add('has-error');
+                emailError.textContent = 'Email address is required.';
+                emailError.style.display = 'block';
+                isValid = false;
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                emailGroup.classList.add('has-error');
+                emailError.textContent = 'Please enter a valid email address.';
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailGroup.classList.remove('has-error');
+                emailError.style.display = 'none';
+            }
+            
+            // Password Validation
+            if (!passwordInput.value) {
+                passwordGroup.classList.add('has-error');
+                passwordError.textContent = 'Password is required.';
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else if (passwordInput.value.length < 8) {
+                passwordGroup.classList.add('has-error');
+                passwordError.textContent = 'Password must be at least 8 characters long.';
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordGroup.classList.remove('has-error');
+                passwordError.style.display = 'none';
+            }
+            
+            if (isValid) {
+                const email = emailInput.value.trim();
+                
+                // Remember email locally
+                if (rememberMeCheckbox.checked) {
+                    localStorage.setItem('remembered_email', email);
+                } else {
+                    localStorage.removeItem('remembered_email');
+                }
+                
+                // Locally and temporarily save the email
+                localStorage.setItem('logged_in_email', email);
+                sessionStorage.setItem('logged_in_email', email);
+                localStorage.setItem('logged_in_role', activeRole);
+                sessionStorage.setItem('logged_in_role', activeRole);
+                
+                // Animation transition before redirect
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 0.4s ease';
+                
+                setTimeout(() => {
+                    if (activeRole === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        window.location.href = 'user-dashboard.html';
+                    }
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>

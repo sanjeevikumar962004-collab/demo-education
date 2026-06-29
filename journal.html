@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal | Stackly. — Insights, Guides & Stories</title>
+    <meta name="description"
+        content="The Stackly Journal — deep-dives into tech education, career growth, engineering culture, and the future of learning.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════
+           DESIGN TOKENS
+        ═══════════════════════════════════════ */
+        :root {
+            --bg: #ffffff;
+            --ink: #111111;
+            --muted: #888888;
+            --soft: #f5f5f5;
+            --line: #eaeaea;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ═══════════════════════════════════════
+           LOAD ANIMATIONS
+        ═══════════════════════════════════════ */
+        header,
+        .journal-hero h1,
+        .journal-hero .hero-meta,
+        .breadcrumb-bar {
+            opacity: 0;
+        }
+
+        body.loaded header {
+            animation: fadeIn 1s ease .1s forwards;
+        }
+
+        body.loaded .journal-hero h1 {
+            animation: slideUpFade 1s cubic-bezier(.2, .8, .2, 1) .3s forwards;
+        }
+
+        body.loaded .journal-hero .hero-meta {
+            animation: slideUpFade 1s cubic-bezier(.2, .8, .2, 1) .5s forwards;
+        }
+
+        body.loaded .breadcrumb-bar {
+            animation: fadeIn .8s ease .7s forwards;
+        }
+
+        body.loaded .filter-bar {
+            animation: slideUpFade .9s cubic-bezier(.2, .8, .2, 1) .65s forwards;
+        }
+
+        .filter-bar {
+            opacity: 0;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           LOADER
+        ═══════════════════════════════════════ */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity .6s ease;
+        }
+
+        .loader-text {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            background: linear-gradient(45deg, #2b1055, #7597de, #b35d7b, #2b1055);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: liquidText 4s ease-in-out infinite;
+        }
+
+        @keyframes liquidText {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           NAVIGATION
+        ═══════════════════════════════════════ */
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, .96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo img {
+            filter: invert(1);
+        }
+
+        .email-link {
+            color: var(--muted);
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .email-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .menu-links a {
+            position: relative;
+            padding-bottom: 5px;
+            transition: opacity .3s;
+        }
+
+        .menu-links a.active::after,
+        .menu-links a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--ink);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icons svg {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            transition: opacity .3s;
+        }
+
+        .social-icons svg:hover {
+            opacity: .5;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 101;
+            position: relative;
+        }
+
+        /* Mobile Overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all .4s ease;
+            transform: translateY(-20px);
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            text-align: center;
+        }
+
+        .mobile-nav-links a {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--ink);
+            transition: color .3s;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            color: var(--muted);
+        }
+
+        /* ═══════════════════════════════════════
+           BREADCRUMB
+        ═══════════════════════════════════════ */
+        .breadcrumb-bar {
+            padding: 1.2rem 4rem;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .breadcrumb-bar a {
+            color: var(--muted);
+            transition: color .3s;
+        }
+
+        .breadcrumb-bar a:hover {
+            color: var(--ink);
+        }
+
+        .breadcrumb-sep {
+            opacity: .4;
+        }
+
+        .breadcrumb-current {
+            color: var(--ink);
+        }
+
+        /* ═══════════════════════════════════════
+           JOURNAL HERO
+        ═══════════════════════════════════════ */
+        .journal-hero {
+            padding: 10rem 4rem 8rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+            align-items: end;
+        }
+
+        .hero-eyebrow {
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .journal-hero h1 {
+            font-size: clamp(4rem, 7vw, 8rem);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -4px;
+            transform: translateY(40px);
+        }
+
+        .journal-hero h1 em {
+            font-style: normal;
+            -webkit-text-stroke: 2px var(--ink);
+            color: transparent;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 2rem;
+            transform: translateY(40px);
+        }
+
+        .hero-meta p {
+            font-size: 1.15rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .hero-stat .num {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .hero-stat .lbl {
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: .3rem;
+        }
+
+        /* ═══════════════════════════════════════
+           FEATURED POST (full bleed)
+        ═══════════════════════════════════════ */
+        .featured-post {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 520px;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .featured-image {
+            overflow: hidden;
+            background: var(--soft);
+            position: relative;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+            filter: grayscale(15%);
+        }
+
+        .featured-post:hover .featured-image img {
+            transform: scale(1.06);
+            filter: grayscale(0%);
+        }
+
+        .featured-tag {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: var(--bg);
+            padding: .5rem 1.2rem;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .featured-body {
+            padding: 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--soft);
+        }
+
+        .featured-label {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .featured-body h2 {
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-body p {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .featured-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--line);
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info .name {
+            font-size: .9rem;
+            font-weight: 700;
+            letter-spacing: -.3px;
+        }
+
+        .author-info .date {
+            font-size: .75rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .read-link {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: gap .3s ease;
+        }
+
+        .read-link svg {
+            width: 18px;
+            height: 18px;
+            transition: transform .3s ease;
+        }
+
+        .featured-post:hover .read-link {
+            gap: 1.2rem;
+        }
+
+        .featured-post:hover .read-link svg {
+            transform: translate(4px, -4px);
+        }
+
+        /* ═══════════════════════════════════════
+           FILTER BAR
+        ═══════════════════════════════════════ */
+        .filter-section {
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 85px;
+            z-index: 90;
+            background: rgba(255, 255, 255, .96);
+            backdrop-filter: blur(12px);
+        }
+
+        .filter-bar {
+            padding: 0 4rem;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            flex-shrink: 0;
+            padding: 1.4rem 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted);
+            border-bottom: 2px solid transparent;
+            transition: all .3s ease;
+        }
+
+        .filter-btn:hover {
+            color: var(--ink);
+        }
+
+        .filter-btn.active {
+            color: var(--ink);
+            border-bottom-color: var(--ink);
+        }
+
+        /* ═══════════════════════════════════════
+           POSTS GRID
+        ═══════════════════════════════════════ */
+        .posts-section {
+            padding: 8rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem 3rem;
+        }
+
+        /* Article card */
+        .post-card {
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity .8s cubic-bezier(.2, .8, .2, 1),
+                transform .8s cubic-bezier(.2, .8, .2, 1);
+            cursor: pointer;
+        }
+
+        .post-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-image {
+            width: 100%;
+            aspect-ratio: 3/2;
+            overflow: hidden;
+            background: var(--soft);
+            position: relative;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+            filter: grayscale(20%);
+        }
+
+        .post-card:hover .post-image img {
+            transform: scale(1.07);
+            filter: grayscale(0%);
+        }
+
+        .post-category {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: var(--bg);
+            padding: .35rem .9rem;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .post-body {
+            padding: 2rem 0 1.5rem;
+            border-bottom: 1px solid var(--line);
+            flex: 1;
+        }
+
+        .post-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--line);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .post-body h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -.5px;
+            line-height: 1.25;
+            margin-bottom: .75rem;
+            transition: opacity .3s;
+        }
+
+        .post-card:hover .post-body h3 {
+            opacity: .65;
+        }
+
+        .post-body p {
+            font-size: .95rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .post-footer {
+            padding: 1.5rem 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-meta {
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .post-arrow {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--line);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all .3s ease;
+        }
+
+        .post-arrow svg {
+            width: 16px;
+            height: 16px;
+            transition: transform .3s ease;
+        }
+
+        .post-card:hover .post-arrow {
+            background: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .post-card:hover .post-arrow svg {
+            stroke: var(--bg);
+            transform: translate(3px, -3px);
+        }
+
+        /* No results */
+        .no-results {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 6rem 2rem;
+            display: none;
+        }
+
+        .no-results h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            color: var(--muted);
+        }
+
+        /* ═══════════════════════════════════════
+           MARQUEE
+        ═══════════════════════════════════════ */
+        .marquee-section {
+            padding: 4rem 0;
+            overflow: hidden;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            display: flex;
+        }
+
+        .marquee-container {
+            display: flex;
+            white-space: nowrap;
+            animation: marqueeScroll 30s linear infinite;
+        }
+
+        .marquee-container:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-content {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1.5px var(--ink);
+            color: transparent;
+            padding-right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .marquee-content span {
+            display: inline-block;
+        }
+
+        .marquee-dot {
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ═══════════════════════════════════════
+           EDITORIAL PICKS — 2-column rows
+        ═══════════════════════════════════════ */
+        .editorial-section {
+            border-top: 1px solid var(--line);
+        }
+
+        .editorial-header {
+            padding: 6rem 4rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .editorial-header h2 {
+            font-size: clamp(2.5rem, 4vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .editorial-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--line);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .editorial-row:nth-child(even) .editorial-visual {
+            order: -1;
+        }
+
+        .editorial-text {
+            padding: 5rem 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity .9s cubic-bezier(.2, .8, .2, 1),
+                transform .9s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .editorial-row.in-view .editorial-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .editorial-tag {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .editorial-text h3 {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+        }
+
+        .editorial-text p {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 400px;
+        }
+
+        .editorial-meta {
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .editorial-visual {
+            overflow: hidden;
+            background: var(--soft);
+            min-height: 420px;
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity .9s cubic-bezier(.2, .8, .2, 1) .15s,
+                transform .9s cubic-bezier(.2, .8, .2, 1) .15s;
+        }
+
+        .editorial-row:nth-child(even) .editorial-visual {
+            transform: translateX(-40px);
+        }
+
+        .editorial-row.in-view .editorial-visual {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .editorial-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+            filter: grayscale(20%);
+        }
+
+        .editorial-row:hover .editorial-visual img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        /* ═══════════════════════════════════════
+           NEWSLETTER / SUBSCRIBE SECTION
+        ═══════════════════════════════════════ */
+        .newsletter-section {
+            padding: 12rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .newsletter-eyebrow {
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-section h2 {
+            font-size: clamp(3rem, 5vw, 5.5rem);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            line-height: 1.05;
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-section p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 4rem;
+            max-width: 540px;
+            margin-inline: auto;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 0;
+            max-width: 540px;
+            margin: 0 auto;
+            border: 1px solid var(--ink);
+        }
+
+        .subscribe-form input {
+            flex: 1;
+            padding: 1.4rem 2rem;
+            border: none;
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: .9rem;
+            background: transparent;
+            color: var(--ink);
+        }
+
+        .subscribe-form input::placeholder {
+            color: var(--muted);
+        }
+
+        .subscribe-btn {
+            padding: 1.4rem 2.5rem;
+            background: var(--ink);
+            color: var(--bg);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all .3s ease;
+            white-space: nowrap;
+        }
+
+        .subscribe-btn:hover {
+            background: #333;
+        }
+
+        .form-disclaimer {
+            margin-top: 1.5rem;
+            font-size: .75rem;
+            color: var(--muted);
+            letter-spacing: .5px;
+        }
+
+        /* ═══════════════════════════════════════
+           CTA
+        ═══════════════════════════════════════ */
+        .cta-section {
+            background: var(--ink);
+            color: var(--bg);
+            text-align: center;
+            padding: 10rem 4rem;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1.5rem 3.5rem;
+            background: transparent;
+            color: var(--bg);
+            border: 2px solid var(--bg);
+            font-family: 'Montserrat', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .4s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--bg);
+            color: var(--ink);
+        }
+
+        /* ═══════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════ */
+        footer {
+            padding: 6rem 4rem 2rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-links h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--ink);
+        }
+
+        .footer-heading {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .footer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-info h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+        }
+
+        .footer-info p,
+        .footer-info a {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--line);
+        }
+
+        .copyright {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /* ═══════════════════════════════════════
+           REVEAL UTILITY
+        ═══════════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity .9s cubic-bezier(.2, .8, .2, 1),
+                transform .9s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 {
+            transition-delay: .1s !important;
+        }
+
+        .stagger-2 {
+            transition-delay: .2s !important;
+        }
+
+        .stagger-3 {
+            transition-delay: .3s !important;
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
+        @media (max-width:1100px) {
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width:1024px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .featured-body {
+                padding: 3rem;
+            }
+
+            .editorial-row {
+                grid-template-columns: 1fr;
+            }
+
+            .editorial-row:nth-child(even) .editorial-visual {
+                order: 0;
+            }
+
+            .editorial-visual {
+                min-height: 280px;
+            }
+
+            .editorial-text {
+                padding: 3rem;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-heading {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width:768px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+
+            .email-link,
+            .menu-links,
+            .social-icons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .breadcrumb-bar {
+                padding: 1rem 2rem;
+            }
+
+            .journal-hero {
+                padding: 7rem 2rem 5rem;
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .journal-hero h1 {
+                font-size: 13vw;
+                letter-spacing: -2px;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .filter-bar {
+                padding: 0 2rem;
+            }
+
+            .filter-btn {
+                padding: 1.2rem 1rem;
+                font-size: .7rem;
+            }
+
+            .posts-section {
+                padding: 5rem 2rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .editorial-header {
+                padding: 4rem 2rem 0;
+            }
+
+            .editorial-text {
+                padding: 3rem 2rem;
+            }
+
+            .newsletter-section {
+                padding: 6rem 2rem;
+            }
+
+            .subscribe-form {
+                flex-direction: column;
+                border: none;
+            }
+
+            .subscribe-form input {
+                border: 1px solid var(--ink);
+                margin-bottom: .75rem;
+                width: 100%;
+            }
+
+            .subscribe-btn {
+                width: 100%;
+            }
+
+            .cta-section {
+                padding: 6rem 2rem;
+            }
+
+            footer {
+                padding: 4rem 2rem 2rem;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-heading {
+                grid-column: span 1;
+                font-size: 3rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── LOADER ── -->
+    <div id="loader">
+        <div class="loader-text">STACKLY</div>
+    </div>
+
+    <!-- ── NAVIGATION ── -->
+    <header>
+        <div class="nav-left">
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <a href="404.html" class="email-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                hello@stackly.com
+            </a>
+        </div>
+        <div class="nav-right">
+            <nav class="menu-links">
+                <a href="index.html">HOME</a>
+                <a href="about.html">ABOUT</a>
+                <a href="courses.html">COURSES</a>
+                <a href="journal.html" class="active">JOURNAL</a>
+                <a href="contact.html">LET'S TALK</a>
+                <a href="login.html">LOGIN</a>
+            </nav>
+            <div class="social-icons">
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                </svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg></a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ── MOBILE MENU ── -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <nav class="mobile-nav-links">
+            <a href="index.html">HOME</a>
+            <a href="about.html">ABOUT</a>
+            <a href="courses.html">COURSES</a>
+            <a href="journal.html" class="active">JOURNAL</a>
+            <a href="contact.html">LET'S TALK</a>
+            <a href="login.html">LOGIN</a>
+        </nav>
+    </div>
+
+    <!-- ── BREADCRUMB ── -->
+    <div class="breadcrumb-bar">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">&#47;</span>
+        <span class="breadcrumb-current">Journal</span>
+    </div>
+
+    <main>
+
+        <!-- ── 1. HERO ── -->
+        <section class="journal-hero">
+            <div>
+                <div class="hero-eyebrow">The Stackly Journal</div>
+                <h1>Ideas that<br>move the<br><em>field.</em></h1>
+            </div>
+            <div class="hero-meta">
+                <p>In-depth articles, engineering stories, career playbooks, and honest takes on the future of tech
+                    education — written by the people building it.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="num">120+</div>
+                        <div class="lbl">Articles</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">32k</div>
+                        <div class="lbl">Monthly Readers</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">18</div>
+                        <div class="lbl">Contributors</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── 2. FEATURED POST ── -->
+        <div class="featured-post reveal">
+            <div class="featured-image">
+                <img src="images/journel page.webp" alt="Why the best developers read more than they code">
+                <div class="featured-tag">Featured</div>
+            </div>
+            <div class="featured-body">
+                <div class="featured-label">Editor's Pick &nbsp;·&nbsp; June 2026</div>
+                <h2>Why the best developers read more than they code</h2>
+                <p>The engineers at the frontier of the industry share a surprising habit — obsessive, wide reading. Not
+                    just tech docs, but philosophy, economics, and cognitive science. Here's why it matters more than
+                    another side project.</p>
+                <div class="featured-footer">
+                    <div class="post-author">
+                        <div class="author-avatar">
+                            <img src="images/sarah.webp" alt="Sarah Chen">
+                        </div>
+                        <div class="author-info">
+                            <div class="name">Sarah Chen</div>
+                            <div class="date">12 min read</div>
+                        </div>
+                    </div>
+                    <a href="404.html" class="read-link">
+                        Read Article
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── 3. FILTER BAR ── -->
+        <div class="filter-section">
+            <div class="filter-bar" id="filterBar">
+                <button class="filter-btn active" data-filter="all">All Posts</button>
+                <button class="filter-btn" data-filter="career">Career</button>
+                <button class="filter-btn" data-filter="engineering">Engineering</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+                <button class="filter-btn" data-filter="ai">AI &amp; Future</button>
+                <button class="filter-btn" data-filter="culture">Culture</button>
+                <button class="filter-btn" data-filter="guides">Guides</button>
+            </div>
+        </div>
+
+        <!-- ── 4. POSTS GRID ── -->
+        <section class="posts-section">
+            <div class="posts-grid" id="postsGrid">
+
+                <!-- Post 1 -->
+                <article class="post-card" data-category="career">
+                    <div class="post-image">
+                        <img src="images/journel 1.webp" alt="The junior developer playbook">
+                        <div class="post-category">Career</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">01</div>
+                        <h3>The Junior Developer Playbook: Your First 90 Days</h3>
+                        <p>Surviving and thriving in your first engineering role takes more than coding skills. Here's
+                            the blueprint no one gives you at the interview stage.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">David Park &nbsp;·&nbsp; 8 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="post-card" data-category="engineering">
+                    <div class="post-image">
+                        <img src="images/journel 2.webp" alt="Readable code">
+                        <div class="post-category">Engineering</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">02</div>
+                        <h3>Writing Code That Your Future Self Will Actually Thank You For</h3>
+                        <p>Clean, readable code is not a luxury — it's a professional obligation. A practical guide to
+                            naming, structure, and documentation that lasts.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">Elena Vasquez &nbsp;·&nbsp; 10 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="post-card" data-category="ai">
+                    <div class="post-image">
+                        <img src="images/machine learning.webp" alt="AI and jobs">
+                        <div class="post-category">AI &amp; Future</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">03</div>
+                        <h3>AI Will Not Replace You — But an AI-Fluent Developer Will</h3>
+                        <p>A sobering look at which skills remain irreplaceable, which are becoming commodities, and how
+                            to strategically position yourself in an AI-augmented industry.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">Marcus Williams &nbsp;·&nbsp; 14 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="post-card" data-category="design">
+                    <div class="post-image">
+                        <img src="images/ui ux.webp" alt="Design Systems">
+                        <div class="post-category">Design</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">04</div>
+                        <h3>How a Design System Saved Our 12-Person Team 200 Hours a Month</h3>
+                        <p>A real case study on building and adopting a component library from scratch. The wins were
+                            big, the mistakes were bigger, and the lessons were invaluable.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">Elena Vasquez &nbsp;·&nbsp; 9 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 5 -->
+                <article class="post-card" data-category="guides">
+                    <div class="post-image">
+                        <img src="images/js.webp" alt="Technical interviews">
+                        <div class="post-category">Guides</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">05</div>
+                        <h3>The Complete Technical Interview Preparation Guide for 2026</h3>
+                        <p>Everything you need to crack FAANG-tier interviews — structured study plans, resource lists,
+                            mock question sets, and the mental game no one talks about.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">David Park &nbsp;·&nbsp; 18 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 6 -->
+                <article class="post-card" data-category="culture">
+                    <div class="post-image">
+                        <img src="images/remote_work.webp" alt="Remote work culture">
+                        <div class="post-category">Culture</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">06</div>
+                        <h3>What 3 Years of Fully-Remote Engineering Taught Us About Culture</h3>
+                        <p>Remote-first isn't just a policy — it's a design challenge. The practices, rituals, and tools
+                            that kept our distributed team among the highest performers in the industry.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">Sarah Chen &nbsp;·&nbsp; 11 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 7 -->
+                <article class="post-card" data-category="engineering">
+                    <div class="post-image">
+                        <img src="images/aws.webp" alt="System Design">
+                        <div class="post-category">Engineering</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">07</div>
+                        <h3>System Design Fundamentals Every Mid-Level Developer Must Know</h3>
+                        <p>Scalability, CAP theorem, caching, load balancing — a crisp, no-nonsense introduction to
+                            system design concepts that will unlock your next promotion.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">Marcus Williams &nbsp;·&nbsp; 16 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 8 -->
+                <article class="post-card" data-category="career">
+                    <div class="post-image">
+                        <img src="images/career_pivot.webp" alt="Career pivot">
+                        <div class="post-category">Career</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">08</div>
+                        <h3>From Marketing Manager to Senior Dev in 18 Months: A Real Story</h3>
+                        <p>Aisha Patel's honest account of what it took to make the leap — the sacrifices, the wins, and
+                            the exact curriculum she followed at Stackly that made it possible.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">Aisha Patel &nbsp;·&nbsp; 7 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 9 -->
+                <article class="post-card" data-category="ai">
+                    <div class="post-image">
+                        <img src="images/llm.webp" alt="LLMs">
+                        <div class="post-category">AI &amp; Future</div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-number">09</div>
+                        <h3>Building Your First Production LLM App Without Losing Your Mind</h3>
+                        <p>Practical patterns for integrating LLMs into real applications — prompt caching, structured
+                            outputs, fallback strategies, and cost control that actually works.</p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-meta">David Park &nbsp;·&nbsp; 13 min read</div>
+                        <div class="post-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- No Results -->
+                <div class="no-results" id="noResults">
+                    <h3>No posts found.</h3>
+                    <p>Try a different category, or browse all posts.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ── 5. MARQUEE ── -->
+        <section class="marquee-section">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <span>ENGINEERING</span>
+                    <div class="marquee-dot"></div>
+                    <span>CAREER</span>
+                    <div class="marquee-dot"></div>
+                    <span>AI</span>
+                    <div class="marquee-dot"></div>
+                    <span>DESIGN</span>
+                    <div class="marquee-dot"></div>
+                    <span>CULTURE</span>
+                    <div class="marquee-dot"></div>
+                    <span>GUIDES</span>
+                    <div class="marquee-dot"></div>
+                    <span>FUTURE</span>
+                    <div class="marquee-dot"></div>
+                </div>
+                <div class="marquee-content">
+                    <span>ENGINEERING</span>
+                    <div class="marquee-dot"></div>
+                    <span>CAREER</span>
+                    <div class="marquee-dot"></div>
+                    <span>AI</span>
+                    <div class="marquee-dot"></div>
+                    <span>DESIGN</span>
+                    <div class="marquee-dot"></div>
+                    <span>CULTURE</span>
+                    <div class="marquee-dot"></div>
+                    <span>GUIDES</span>
+                    <div class="marquee-dot"></div>
+                    <span>FUTURE</span>
+                    <div class="marquee-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── 6. EDITORIAL PICKS ── -->
+        <section class="editorial-section">
+            <div class="editorial-header reveal">
+                <h2>Deep reads worth<br>your weekend.</h2>
+            </div>
+
+            <div class="editorial-row">
+                <div class="editorial-text">
+                    <div class="editorial-tag">Engineering &nbsp;·&nbsp; 22 min read</div>
+                    <h3>The Architecture Behind Stackly's Real-Time Feedback Engine</h3>
+                    <p>A rare, transparent look at how we designed, iterated, and scaled the system that gives learners
+                        instant feedback on their code — handling 2 million events per day.</p>
+                    <div class="editorial-meta">Marcus Williams &nbsp;·&nbsp; May 2026</div>
+                </div>
+                <div class="editorial-visual">
+                    <img src="images/architecture.webp" alt="Architecture">
+                </div>
+            </div>
+
+            <div class="editorial-row">
+                <div class="editorial-text">
+                    <div class="editorial-tag">AI &amp; Future &nbsp;·&nbsp; 19 min read</div>
+                    <h3>The Personalised Curriculum: How We're Using ML to Tailor Every Learning Path</h3>
+                    <p>Most platforms give you a fixed sequence. We built a recommendation engine that adapts to how you
+                        learn, where you struggle, and what your career goals actually are.</p>
+                    <div class="editorial-meta">Sarah Chen &nbsp;·&nbsp; April 2026</div>
+                </div>
+                <div class="editorial-visual">
+                    <img src="./images/data science.webp" alt="AI personalisation">
+                </div>
+            </div>
+
+            <div class="editorial-row">
+                <div class="editorial-text">
+                    <div class="editorial-tag">Culture &nbsp;·&nbsp; 15 min read</div>
+                    <h3>Building Without Burn-Out: The Sustainable Engineering Culture Playbook</h3>
+                    <p>Velocity and sustainability are not opposites. How the highest-performing teams in our cohort
+                        structure sprints, manage expectations, and protect creative energy.</p>
+                    <div class="editorial-meta">David Park &nbsp;·&nbsp; March 2026</div>
+                </div>
+                <div class="editorial-visual">
+                    <img src="images/jounel aboot.webp" alt="Team culture">
+                </div>
+            </div>
+        </section>
+
+        <!-- ── 7. NEWSLETTER ── -->
+        <section class="newsletter-section reveal">
+            <div class="newsletter-eyebrow">Stay in the loop</div>
+            <h2>The Journal,<br>in your inbox.</h2>
+            <p>Get the best Stackly articles, career guides, and engineering deep-dives delivered every two weeks. No
+                noise, no fluff — only signal.</p>
+            <form class="subscribe-form" id="subscribeForm" onsubmit="handleSubscribe(event)">
+                <input type="email" id="emailInput" placeholder="your@email.com" required>
+                <button type="submit" class="subscribe-btn">Subscribe</button>
+            </form>
+            <p class="form-disclaimer" id="formMsg">Joining 32,000+ readers. Unsubscribe at any time.</p>
+        </section>
+
+        <!-- ── 8. CTA ── -->
+        <section class="cta-section">
+            <h2>Ready to start<br>learning?</h2>
+            <a href="404.html" class="btn-primary">Browse Courses</a>
+        </section>
+
+    </main>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-heading">
+                LET'S WORK<br>TOGETHER
+            </div>
+            
+            <div class="footer-links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="journal.html">Journal</a></li>
+                    <li><a href="contact.html">Let's Talk</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="404.html">Twitter</a></li>
+                    <li><a href="404.html">LinkedIn</a></li>
+                    <li><a href="404.html">Instagram</a></li>
+                    <li><a href="404.html">GitHub</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-info">
+                <h4>Stackly HQ</h4>
+                <p>1404 Tech Park Ave<br>Salem, TN 636001<br>India</p>
+                <a href="404.html">hello@stackly.com</a>
+                <p>+91 12345 67890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <div class="copyright">© 2026 STACKLY EDUCATION™</div>
+            <div class="mobile-socials" style="display:none; color:var(--ink);">
+                <span>Ig</span><span>Tw</span><span>Fb</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ── 1. Loader ── */
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    document.body.classList.add('loaded');
+                }, 600);
+            }, 1800);
+        });
+
+        /* ── 2. Mobile Menu ── */
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const HAM = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+        const CLS = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const open = mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = open ? CLS : HAM;
+            document.body.style.overflow = open ? 'hidden' : '';
+        });
+        document.querySelectorAll('.mobile-nav-links a').forEach(l => {
+            l.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = HAM;
+                document.body.style.overflow = '';
+            });
+        });
+
+        /* ── 3. Filter Logic ── */
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const postCards = document.querySelectorAll('.post-card');
+        const noResults = document.getElementById('noResults');
+
+        function applyFilter(filter) {
+            let count = 0;
+            postCards.forEach(card => {
+                const match = filter === 'all' || card.dataset.category === filter;
+                card.classList.toggle('hidden', !match);
+                if (match) {
+                    count++;
+                    card.classList.remove('in-view');
+                    setTimeout(() => card.classList.add('in-view'), 80 + (count % 3) * 100);
+                }
+            });
+            noResults.style.display = count === 0 ? 'block' : 'none';
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                applyFilter(btn.dataset.filter);
+            });
+        });
+
+        /* ── 4. Card Scroll Reveal ── */
+        const cardObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting && !e.target.classList.contains('hidden')) {
+                    e.target.classList.add('in-view');
+                    cardObs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        postCards.forEach((c, i) => {
+            c.style.transitionDelay = (i % 3 * 0.12) + 's';
+            cardObs.observe(c);
+            c.style.cursor = 'pointer';
+            c.addEventListener('click', () => {
+                window.location.href = '404.html';
+            });
+        });
+
+        /* ── 5. Editorial Row Reveal ── */
+        const editorialRows = document.querySelectorAll('.editorial-row');
+        const editObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('in-view'); editObs.unobserve(e.target); }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+        editorialRows.forEach(r => editObs.observe(r));
+
+        /* ── 6. General Reveal ── */
+        const revealEls = document.querySelectorAll('.reveal');
+        const revObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('in-view'); revObs.unobserve(e.target); }
+            });
+        }, { threshold: 0.1 });
+        revealEls.forEach(el => revObs.observe(el));
+
+        /* ── 7. Newsletter form ── */
+        function handleSubscribe(e) {
+            e.preventDefault();
+            window.location.href = '404.html';
+        }
+
+        /* ── 8. Responsive footer ── */
+        function handleResize() {
+            const s = document.querySelector('.mobile-socials');
+            if (s) s.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+        }
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    </script>
+</body>
+
+</html>

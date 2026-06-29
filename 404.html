@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Page Not Found | Stackly. — Online Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --gray-color: #888888;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navigation Header */
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo img {
+            filter: invert(1);
+        }
+
+        /* 404 Main Area */
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem;
+            flex: 1;
+        }
+
+        .error-code {
+            font-size: clamp(8rem, 15vw, 15rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -6px;
+            background: linear-gradient(45deg, #111111, #888888, #eaeaea, #111111);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFlow 8s ease-in-out infinite;
+        }
+
+        @keyframes textFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .error-title {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 1.5rem 0 1rem;
+            text-transform: uppercase;
+        }
+
+        .error-description {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 1.4rem 3rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-home:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 4rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            font-weight: 600;
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header, footer {
+                padding: 1.5rem 2rem;
+            }
+            footer {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+    </header>
+
+    <!-- Main Error Content -->
+    <main class="error-container">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page not found.</h1>
+        <p class="error-description">The page you are looking for does not exist or has crumbled from our learning stack. Let's return to familiar territory.</p>
+        <a href="index.html" class="btn-home">Return to Homepage</a>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer>
+        <div>© 2026 STACKLY EDUCATION™</div>
+        <div>ALL RIGHTS RESERVED</div>
+    </footer>
+
+</body>
+</html>

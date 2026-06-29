@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | Stackly.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --gray-color: #888888;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --primary-accent: #2b1055;
+            --progress-color: #111111;
+        }
+
+        /* Dark mode palette */
+        body.dark-mode {
+            --bg-color: #0b0b0b;
+            --text-color: #f5f5f5;
+            --gray-color: #aaaaaa;
+            --light-gray: #161616;
+            --border-color: #222222;
+            --progress-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Dashboard Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--light-gray);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2.5rem 2rem;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar-top {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo img {
+            filter: invert(1);
+            transition: filter 0.3s ease;
+        }
+
+        body.dark-mode .logo img {
+            filter: invert(0);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-color);
+        }
+
+        .nav-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .sidebar-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-color);
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main Content Viewport */
+        .viewport {
+            margin-left: 280px;
+            flex: 1;
+            padding: 3rem 4rem;
+            transition: all 0.4s ease;
+        }
+
+        /* Header Area */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .user-greeting h1 {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-greeting p {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-greeting p span {
+            color: var(--text-color);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .user-info-text {
+            text-align: right;
+        }
+
+        .user-info-text h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .user-info-text p {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Widgets Layout Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .main-column {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .welcome-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-card p {
+            color: var(--gray-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 480px;
+        }
+
+        .progress-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 68%;
+            background-color: var(--progress-color);
+            transition: width 1s ease-in-out;
+        }
+
+        .btn-resume {
+            align-self: flex-start;
+            padding: 1rem 2rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-resume:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        /* Course List Area */
+        .section-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .course-card {
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .course-card:hover {
+            border-color: var(--text-color);
+        }
+
+        .course-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .course-card-meta {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+        }
+
+        .course-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-card-progress {
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .resume-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .course-card:hover .resume-arrow {
+            background-color: var(--text-color);
+            border-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .resume-arrow svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Side Column Widgets */
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .stats-panel {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .stat-icon {
+            color: var(--gray-color);
+        }
+
+        .stat-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Timeline widget */
+        .timeline-widget {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .timeline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-list::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            bottom: 5px;
+            width: 1.5px;
+            background-color: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            top: 4px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background-color: var(--text-color);
+            border: 2px solid var(--bg-color);
+        }
+
+        .timeline-content h5 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            font-weight: 600;
+        }
+
+        /* Mobile Top Bar Overlay */
+        .mobile-header {
+            display: none;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 101;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        /* Responsive Design styling */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                height: 100vh;
+                top: 0;
+                left: 0;
+                width: 260px;
+                padding-top: 6rem;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .viewport {
+                margin-left: 0;
+                padding: 6rem 2rem 3rem 2rem;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            .user-profile {
+                width: 100%;
+                justify-content: space-between;
+                flex-direction: row-reverse;
+            }
+            .user-info-text {
+                text-align: left;
+            }
+            .welcome-card {
+                padding: 2rem;
+            }
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Security Check Guard script -->
+    <script>
+        (function() {
+            const loggedInEmail = localStorage.getItem('logged_in_email') || sessionStorage.getItem('logged_in_email');
+            const loggedInRole = localStorage.getItem('logged_in_role') || sessionStorage.getItem('logged_in_role');
+            
+            if (!loggedInEmail) {
+                window.location.replace('login.html');
+            } else if (loggedInRole !== 'user') {
+                window.location.replace('admin-dashboard.html');
+            }
+        })();
+    </script>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+        <button class="menu-btn" id="mobileMenuBtn" onclick="toggleMobileSidebar()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+    </div>
+
+    <!-- Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-top">
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <nav class="nav-links">
+                <a href="404.html" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    Dashboard
+                </a>
+                <a href="404.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                    My Courses
+                </a>
+                <a href="404.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    Learning Path
+                </a>
+                <a href="404.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    Assignments
+                </a>
+                <a href="404.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Settings
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <span id="themeLabel">Dark Mode</span>
+            </button>
+            <a href="#" class="nav-link" onclick="handleLogout(event)" style="color: var(--error-color);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                Log Out
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Viewport -->
+    <main class="viewport">
+        
+        <!-- Header -->
+        <header>
+            <div class="user-greeting">
+                <h1 id="welcomeGreeting">Welcome back.</h1>
+                <p>Role: <span>Student Portal</span></p>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-info-text">
+                    <h4 id="userProfileName">Student</h4>
+                    <p id="userProfileEmail">student@example.com</p>
+                </div>
+                <div class="avatar" id="userAvatar">ST</div>
+            </div>
+        </header>
+
+        <!-- Widgets Layout Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Main Column -->
+            <div class="main-column">
+                
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+                    <h2>Resume your learning stack.</h2>
+                    <p>You have made exceptional progress in your courses this week. Keep up the momentum to finish your upcoming project deliverables on schedule.</p>
+                    
+                    <div class="progress-block">
+                        <div class="progress-header">
+                            <span>Python ML Foundation</span>
+                            <span>68% Completed</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn-resume" onclick="window.location.href='404.html'">Resume Course</button>
+                </div>
+
+                <!-- Course List Grid -->
+                <div class="course-list-area">
+                    <div class="section-header">
+                        <h3>My Enrolled Courses</h3>
+                    </div>
+                    <div class="course-grid">
+                        
+                        <!-- Course 1 -->
+                        <div class="course-card" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                            <div>
+                                <div class="course-card-meta">Web Dev &middot; 24 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">Full-Stack Web Masterclass</h4>
+                            </div>
+                            <div class="course-card-footer">
+                                <div class="course-card-progress">42% Done</div>
+                                <div class="resume-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <!-- Course 2 -->
+                        <div class="course-card" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                            <div>
+                                <div class="course-card-meta">AI &amp; ML &middot; 20 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">Machine Learning with TensorFlow</h4>
+                            </div>
+                            <div class="course-card-footer">
+                                <div class="course-card-progress">68% Done</div>
+                                <div class="resume-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <!-- Course 3 -->
+                        <div class="course-card" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                            <div>
+                                <div class="course-card-meta">Design &middot; 12 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">UI/UX Design Systems in Figma</h4>
+                            </div>
+                            <div class="course-card-footer">
+                                <div class="course-card-progress">10% Done</div>
+                                <div class="resume-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <!-- Empty Course Card Placeholder -->
+                        <div class="course-card" onclick="window.location.href='404.html'" style="border-style: dashed; justify-content: center; align-items: center; cursor: pointer;">
+                            <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-color);">+ Enroll in new course</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Side Column -->
+            <div class="side-column">
+                
+                <!-- Stats Panel -->
+                <div class="stats-panel">
+                    
+                    <div class="stat-item">
+                        <div class="stat-meta">
+                            <span class="stat-label">Active Courses</span>
+                            <span class="stat-value">3</span>
+                        </div>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-meta">
+                            <span class="stat-label">Hours Completed</span>
+                            <span class="stat-value">42</span>
+                        </div>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-meta">
+                            <span class="stat-label">Assignments Done</span>
+                            <span class="stat-value">12</span>
+                        </div>
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="timeline-widget">
+                    <div class="section-header" style="margin-bottom: 0;">
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <div class="timeline-list">
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h5>Submitted Assignment 4</h5>
+                                <p>Figma prototyping exercise &middot; 2 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h5>Completed Lesson 18</h5>
+                                <p>Machine Learning APIs &middot; 1 day ago</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h5>Enrolled in Figma Course</h5>
+                                <p>UI/UX Design Systems &middot; 3 days ago</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // Init dynamic user data on window load
+        window.addEventListener('load', () => {
+            const email = localStorage.getItem('logged_in_email') || sessionStorage.getItem('logged_in_email') || "student@example.com";
+            
+            // Set dynamic emails
+            document.getElementById('userProfileEmail').textContent = email;
+            document.getElementById('welcomeGreeting').textContent = `Welcome back, ${email.split('@')[0]}.`;
+            document.getElementById('userProfileName').textContent = email.split('@')[0];
+            
+            // Set Avatar Initials
+            const initials = email.substring(0, 2).toUpperCase();
+            document.getElementById('userAvatar').textContent = initials;
+            
+            // Check theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateThemeUI(true);
+            }
+        });
+
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeUI(isDark);
+        }
+
+        function updateThemeUI(isDark) {
+            const themeLabel = document.getElementById('themeLabel');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (isDark) {
+                themeLabel.textContent = 'Light Mode';
+                themeIcon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                `;
+            } else {
+                themeLabel.textContent = 'Dark Mode';
+                themeIcon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                `;
+            }
+        }
+
+        // Mobile Sidebar toggler
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const btn = document.getElementById('mobileMenuBtn');
+            const isOpen = sidebar.classList.toggle('active');
+            
+            btn.innerHTML = isOpen ? `
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            ` : `
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            `;
+        }
+
+        // Handle Logout Action
+        function handleLogout(e) {
+            e.preventDefault();
+            
+            // Fade out page body
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            
+            // Clear credentials
+            localStorage.removeItem('logged_in_email');
+            sessionStorage.removeItem('logged_in_email');
+            localStorage.removeItem('logged_in_role');
+            sessionStorage.removeItem('logged_in_role');
+            
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 400);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | Stackly. — Online Education</title>
+    <meta name="description"
+        content="Explore Stackly's world-class courses in Web Development, Data Science, AI, UI/UX Design and more — built by industry experts, for the real world.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ─────────────────────────────────────────────
+           DESIGN TOKENS
+        ───────────────────────────────────────────── */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --gray-color: #888888;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ─────────────────────────────────────────────
+           LOAD ANIMATIONS
+        ───────────────────────────────────────────── */
+        header,
+        .courses-hero h1,
+        .courses-hero p,
+        .breadcrumb-bar {
+            opacity: 0;
+        }
+
+        body.loaded header {
+            animation: fadeIn 1s ease 0.1s forwards;
+        }
+
+        body.loaded .courses-hero h1 {
+            animation: slideUpFade 1s cubic-bezier(.2, .8, .2, 1) 0.3s forwards;
+        }
+
+        body.loaded .courses-hero p {
+            animation: slideUpFade 1s cubic-bezier(.2, .8, .2, 1) 0.5s forwards;
+        }
+
+        body.loaded .breadcrumb-bar {
+            animation: fadeIn 0.8s ease 0.7s forwards;
+        }
+
+        body.loaded .filter-bar {
+            animation: slideUpFade 1s cubic-bezier(.2, .8, .2, 1) 0.65s forwards;
+        }
+
+        .filter-bar {
+            opacity: 0;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ─────────────────────────────────────────────
+           LOADER
+        ───────────────────────────────────────────── */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease;
+        }
+
+        .loader-text {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            background: linear-gradient(45deg, #2b1055, #7597de, #b35d7b, #2b1055);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: liquidText 4s ease-in-out infinite;
+        }
+
+        @keyframes liquidText {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* ─────────────────────────────────────────────
+           NAVIGATION
+        ───────────────────────────────────────────── */
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo img {
+            filter: invert(1);
+        }
+
+        .email-link {
+            color: var(--gray-color);
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .email-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .menu-links a {
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .menu-links a.active::after,
+        .menu-links a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icons svg {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            transition: opacity .3s ease;
+        }
+
+        .social-icons svg:hover {
+            opacity: .5;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 101;
+            position: relative;
+        }
+
+        /* Mobile Overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            transform: translateY(-20px);
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            text-align: center;
+        }
+
+        .mobile-nav-links a {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            transition: color .3s ease;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            color: var(--gray-color);
+        }
+
+        /* ─────────────────────────────────────────────
+           BREADCRUMB
+        ───────────────────────────────────────────── */
+        .breadcrumb-bar {
+            padding: 1.2rem 4rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+        }
+
+        .breadcrumb-bar a {
+            color: var(--gray-color);
+            transition: color .3s;
+        }
+
+        .breadcrumb-bar a:hover {
+            color: var(--text-color);
+        }
+
+        .breadcrumb-sep {
+            opacity: .4;
+        }
+
+        .breadcrumb-current {
+            color: var(--text-color);
+        }
+
+        /* ─────────────────────────────────────────────
+           HERO
+        ───────────────────────────────────────────── */
+        .courses-hero {
+            padding: 9rem 4rem 7rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+        }
+
+        .courses-hero-left .eyebrow {
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            margin-bottom: 2rem;
+        }
+
+        .courses-hero h1 {
+            font-size: clamp(3.5rem, 6vw, 7rem);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -3px;
+            transform: translateY(40px);
+        }
+
+        .courses-hero h1 em {
+            font-style: normal;
+            -webkit-text-stroke: 2px var(--text-color);
+            color: transparent;
+        }
+
+        .courses-hero p {
+            font-size: 1.15rem;
+            color: var(--gray-color);
+            line-height: 1.7;
+            transform: translateY(40px);
+            align-self: end;
+        }
+
+        .courses-hero-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* ─────────────────────────────────────────────
+           FILTER BAR
+        ───────────────────────────────────────────── */
+        .filter-section {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 85px;
+            z-index: 90;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-bar {
+            padding: 0 4rem;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            flex-shrink: 0;
+            padding: 1.4rem 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-color);
+            border-bottom: 2px solid transparent;
+            transition: all .3s ease;
+        }
+
+        .filter-btn:hover {
+            color: var(--text-color);
+        }
+
+        .filter-btn.active {
+            color: var(--text-color);
+            border-bottom-color: var(--text-color);
+        }
+
+        /* ─────────────────────────────────────────────
+           COURSES GRID
+        ───────────────────────────────────────────── */
+        .courses-section {
+            padding: 8rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        /* reveal animation */
+        .course-card {
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity .8s cubic-bezier(.2, .8, .2, 1),
+                transform .8s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .course-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .course-card.hidden {
+            display: none;
+        }
+
+        .course-card-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            background: var(--light-gray);
+            position: relative;
+        }
+
+        .course-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+            filter: grayscale(15%);
+        }
+
+        .course-card:hover .course-card-image img {
+            transform: scale(1.07);
+            filter: grayscale(0%);
+        }
+
+        /* overlay badge on image */
+        .course-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--bg-color);
+            padding: .4rem 1rem;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .course-level-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: .4rem 1rem;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--bg-color);
+        }
+
+        .level-beginner {
+            background: #333;
+        }
+
+        .level-intermediate {
+            background: #555;
+        }
+
+        .level-advanced {
+            background: #111;
+        }
+
+        .course-card-body {
+            padding: 2rem 0 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            flex: 1;
+        }
+
+        .course-card-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--border-color);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .course-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -.5px;
+            margin-bottom: .75rem;
+            line-height: 1.2;
+        }
+
+        .course-card p {
+            font-size: .95rem;
+            color: var(--gray-color);
+            line-height: 1.7;
+        }
+
+        .course-card-footer {
+            padding: 1.5rem 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+        }
+
+        .course-duration {
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+        }
+
+        .course-rating {
+            font-size: .8rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .course-rating span {
+            color: var(--gray-color);
+            font-weight: 400;
+        }
+
+        .course-arrow {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all .3s ease;
+            flex-shrink: 0;
+        }
+
+        .course-arrow svg {
+            width: 18px;
+            height: 18px;
+            transition: transform .3s ease;
+        }
+
+        .course-card:hover .course-arrow {
+            background: var(--text-color);
+            border-color: var(--text-color);
+        }
+
+        .course-card:hover .course-arrow svg {
+            stroke: var(--bg-color);
+            transform: translate(3px, -3px);
+        }
+
+        /* ─────────────────────────────────────────────
+           NO RESULTS STATE
+        ───────────────────────────────────────────── */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 6rem 2rem;
+            display: none;
+        }
+
+        .no-results h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            color: var(--gray-color);
+            font-size: 1rem;
+        }
+
+        /* ─────────────────────────────────────────────
+           TRACKS SECTION (full-width feature rows)
+        ───────────────────────────────────────────── */
+        .tracks-section {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .track-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .track-row:nth-child(even) .track-visual {
+            order: -1;
+        }
+
+        .track-text {
+            padding: 6rem 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .track-number {
+            font-size: 6rem;
+            font-weight: 800;
+            color: var(--border-color);
+            line-height: 1;
+            margin-bottom: 2rem;
+            transition: color .6s ease;
+        }
+
+        .track-row:hover .track-number {
+            color: var(--light-gray);
+        }
+
+        .track-eyebrow {
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .track-text h2 {
+            font-size: clamp(2rem, 3.5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .track-text p {
+            font-size: 1.05rem;
+            color: var(--gray-color);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 420px;
+        }
+
+        .track-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+        }
+
+        .track-pill {
+            padding: .5rem 1.2rem;
+            border: 1px solid var(--border-color);
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all .3s ease;
+        }
+
+        .track-row:hover .track-pill {
+            border-color: var(--text-color);
+        }
+
+        .track-visual {
+            overflow: hidden;
+            position: relative;
+            background: var(--light-gray);
+        }
+
+        .track-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+            filter: grayscale(20%);
+        }
+
+        .track-row:hover .track-visual img {
+            transform: scale(1.06);
+            filter: grayscale(0%);
+        }
+
+        /* Reveal for track rows */
+        .track-text,
+        .track-visual {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity .9s cubic-bezier(.2, .8, .2, 1),
+                transform .9s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .track-visual {
+            transform: translateX(40px);
+        }
+
+        .track-row:nth-child(even) .track-visual {
+            transform: translateX(-40px);
+        }
+
+        .track-row.in-view .track-text,
+        .track-row.in-view .track-visual {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        .track-visual {
+            transition-delay: .15s;
+        }
+
+        /* ─────────────────────────────────────────────
+           MARQUEE DIVIDER
+        ───────────────────────────────────────────── */
+        .marquee-section {
+            padding: 4rem 0;
+            overflow: hidden;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+        }
+
+        .marquee-container {
+            display: flex;
+            white-space: nowrap;
+            animation: marqueeScroll 28s linear infinite;
+        }
+
+        .marquee-container:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-content {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1.5px var(--text-color);
+            color: transparent;
+            padding-right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .marquee-content span {
+            display: inline-block;
+        }
+
+        .marquee-dot {
+            width: 15px;
+            height: 15px;
+            background: var(--text-color);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ─────────────────────────────────────────────
+           TESTIMONIAL STRIP
+        ───────────────────────────────────────────── */
+        .testimonial-section {
+            text-align: center;
+            padding: 12rem 4rem;
+        }
+
+        .quote-mark {
+            font-size: 8rem;
+            line-height: 0;
+            color: var(--border-color);
+            font-family: serif;
+            margin-bottom: 4rem;
+            display: block;
+        }
+
+        .testimonial-carousel {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 250px;
+        }
+
+        .testimonial-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .6s cubic-bezier(.4, 0, .2, 1);
+            pointer-events: none;
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+            pointer-events: all;
+        }
+
+        .testimonial-text {
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            margin: 0 auto 3rem;
+        }
+
+        .testimonial-author {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+            display: block;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: background .3s, transform .3s;
+        }
+
+        .dot:hover {
+            transform: scale(1.5);
+        }
+
+        .dot.active {
+            background: var(--text-color);
+            transform: scale(1.5);
+        }
+
+        /* ─────────────────────────────────────────────
+           CTA
+        ───────────────────────────────────────────── */
+        .cta-section {
+            background: var(--text-color);
+            color: var(--bg-color);
+            text-align: center;
+            padding: 10rem 4rem;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1.5rem 3.5rem;
+            background: transparent;
+            color: var(--bg-color);
+            border: 2px solid var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .4s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* ─────────────────────────────────────────────
+           FOOTER
+        ───────────────────────────────────────────── */
+        footer {
+            padding: 6rem 4rem 2rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-links h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--gray-color);
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-color);
+        }
+
+        .footer-heading {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            grid-column: span 1;
+        }
+
+        .footer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-info h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+        }
+
+        .footer-info p,
+        .footer-info a {
+            color: var(--gray-color);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .copyright {
+            color: var(--gray-color);
+            font-size: .9rem;
+        }
+
+        /* ─────────────────────────────────────────────
+           REVEAL UTILITY
+        ───────────────────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity .9s cubic-bezier(.2, .8, .2, 1),
+                transform .9s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 {
+            transition-delay: .1s !important;
+        }
+
+        .stagger-2 {
+            transition-delay: .2s !important;
+        }
+
+        .stagger-3 {
+            transition-delay: .3s !important;
+        }
+
+        /* card stagger via JS data attr */
+        .course-card[data-delay="1"] {
+            transition-delay: .1s;
+        }
+
+        .course-card[data-delay="2"] {
+            transition-delay: .2s;
+        }
+
+        .course-card[data-delay="3"] {
+            transition-delay: .3s;
+        }
+
+        /* ─────────────────────────────────────────────
+           RESPONSIVE
+        ───────────────────────────────────────────── */
+        @media (max-width: 1100px) {
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .track-row {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .track-row:nth-child(even) .track-visual {
+                order: 0;
+            }
+
+            .track-visual {
+                min-height: 350px;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-heading {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+
+            .email-link,
+            .menu-links,
+            .social-icons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .breadcrumb-bar {
+                padding: 1rem 2rem;
+            }
+
+            .courses-hero {
+                padding: 7rem 2rem 5rem;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .courses-hero h1 {
+                font-size: 12vw;
+                letter-spacing: -2px;
+            }
+
+            .filter-bar {
+                padding: 0 2rem;
+            }
+
+            .filter-btn {
+                padding: 1.2rem 1.2rem;
+                font-size: .7rem;
+            }
+
+            .courses-section {
+                padding: 5rem 2rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .track-text {
+                padding: 4rem 2rem;
+            }
+
+            .track-visual {
+                min-height: 260px;
+            }
+
+            .track-number {
+                font-size: 4rem;
+            }
+
+            .testimonial-section {
+                padding: 6rem 2rem;
+            }
+
+            .testimonial-carousel {
+                min-height: 300px;
+            }
+
+            .cta-section {
+                padding: 6rem 2rem;
+            }
+
+            footer {
+                padding: 4rem 2rem 2rem;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-heading {
+                grid-column: span 1;
+                font-size: 3rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── LOADER ── -->
+    <div id="loader">
+        <div class="loader-text">STACKLY</div>
+    </div>
+
+    <!-- ── NAVIGATION ── -->
+    <header>
+        <div class="nav-left">
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <a href="404.html" class="email-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                hello@stackly.com
+            </a>
+        </div>
+        <div class="nav-right">
+            <nav class="menu-links">
+                <a href="index.html">HOME</a>
+                <a href="about.html">ABOUT</a>
+                <a href="courses.html" class="active">COURSES</a>
+                <a href="journal.html">JOURNAL</a>
+                <a href="contact.html">LET'S TALK</a>
+                <a href="login.html">LOGIN</a>
+            </nav>
+            <div class="social-icons">
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                </svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg></a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ── MOBILE MENU ── -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <nav class="mobile-nav-links">
+            <a href="index.html">HOME</a>
+            <a href="about.html">ABOUT</a>
+            <a href="courses.html" class="active">COURSES</a>
+            <a href="journal.html">JOURNAL</a>
+            <a href="contact.html">LET'S TALK</a>
+            <a href="login.html">LOGIN</a>
+        </nav>
+    </div>
+
+    <!-- ── BREADCRUMB ── -->
+    <div class="breadcrumb-bar">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">&#47;</span>
+        <span class="breadcrumb-current">Courses</span>
+    </div>
+
+    <main>
+
+        <!-- ── 1. HERO ── -->
+        <section class="courses-hero">
+            <div class="courses-hero-left">
+                <div class="eyebrow">240+ Courses Available</div>
+                <h1>Learn what<br>the world<br><em>demands.</em></h1>
+            </div>
+            <div class="courses-hero-right">
+                <p>Every course on Stackly is crafted by working professionals, regularly updated to reflect the
+                    industry, and designed so your first project goes live — not just in a sandbox, but in the real
+                    world.</p>
+            </div>
+        </section>
+
+        <!-- ── 2. FILTER BAR ── -->
+        <div class="filter-section">
+            <div class="filter-bar" id="filterBar">
+                <button class="filter-btn active" data-filter="all">All Courses</button>
+                <button class="filter-btn" data-filter="web">Web Dev</button>
+                <button class="filter-btn" data-filter="data">Data Science</button>
+                <button class="filter-btn" data-filter="ai">AI &amp; ML</button>
+                <button class="filter-btn" data-filter="design">UI/UX Design</button>
+                <button class="filter-btn" data-filter="cloud">Cloud &amp; DevOps</button>
+                <button class="filter-btn" data-filter="mobile">Mobile Dev</button>
+            </div>
+        </div>
+
+        <!-- ── 3. COURSES GRID ── -->
+        <section class="courses-section">
+            <div class="courses-grid" id="coursesGrid">
+
+                <!-- Card 1 -->
+                <div class="course-card" data-category="web" data-delay="1">
+                    <div class="course-card-image">
+                        <img src="images/full stack.webp" alt="Full-Stack Web Development">
+                        <div class="course-badge">Web Dev</div>
+                        <div class="course-level-badge level-intermediate">Intermediate</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">01</div>
+                        <h3>Full-Stack Web Development Masterclass</h3>
+                        <p>Build scalable web apps from scratch using React, Node.js, and PostgreSQL. Covers REST APIs,
+                            authentication, and deployment pipelines.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">24 Weeks &nbsp;·&nbsp; 180 Lessons</div>
+                            <div class="course-rating">4.9 ★ <span>(2.4k reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="course-card" data-category="data" data-delay="2">
+                    <div class="course-card-image">
+                        <img src="images/data science.webp" alt="Data Science">
+                        <div class="course-badge">Data Science</div>
+                        <div class="course-level-badge level-beginner">Beginner</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">02</div>
+                        <h3>Data Science with Python &amp; Pandas</h3>
+                        <p>Analyse, visualise, and extract insights from large datasets. Covers NumPy, Matplotlib,
+                            Seaborn, and real-world data cleaning workflows.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">16 Weeks &nbsp;·&nbsp; 120 Lessons</div>
+                            <div class="course-rating">4.8 ★ <span>(1.8k reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="course-card" data-category="ai" data-delay="3">
+                    <div class="course-card-image">
+                        <img src="images/machine learning.webp" alt="AI & Machine Learning">
+                        <div class="course-badge">AI &amp; ML</div>
+                        <div class="course-level-badge level-advanced">Advanced</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">03</div>
+                        <h3>Machine Learning with TensorFlow</h3>
+                        <p>Train, evaluate, and deploy predictive ML models. Covers neural networks, CNNs, NLP, and
+                            serving models via REST APIs in production.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">20 Weeks &nbsp;·&nbsp; 160 Lessons</div>
+                            <div class="course-rating">4.9 ★ <span>(3.1k reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="course-card" data-category="design" data-delay="1">
+                    <div class="course-card-image">
+                        <img src="images/ui ux.webp" alt="UI/UX Design">
+                        <div class="course-badge">UI/UX Design</div>
+                        <div class="course-level-badge level-beginner">Beginner</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">04</div>
+                        <h3>UI/UX Design Systems in Figma</h3>
+                        <p>Master user-centred design thinking. Build full design systems, high-fidelity prototypes, and
+                            handoff-ready specs for engineering teams.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">12 Weeks &nbsp;·&nbsp; 90 Lessons</div>
+                            <div class="course-rating">4.7 ★ <span>(1.2k reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="course-card" data-category="cloud" data-delay="2">
+                    <div class="course-card-image">
+                        <img src="images/aws.webp" alt="Cloud & DevOps">
+                        <div class="course-badge">Cloud &amp; DevOps</div>
+                        <div class="course-level-badge level-intermediate">Intermediate</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">05</div>
+                        <h3>AWS, Docker &amp; Kubernetes in Production</h3>
+                        <p>Deploy, scale, and monitor microservices on AWS. Covers CI/CD pipelines, containerisation,
+                            Kubernetes orchestration, and observability.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">18 Weeks &nbsp;·&nbsp; 140 Lessons</div>
+                            <div class="course-rating">4.8 ★ <span>(950 reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="course-card" data-category="mobile" data-delay="3">
+                    <div class="course-card-image">
+                        <img src="images/react.webp" alt="Mobile Development">
+                        <div class="course-badge">Mobile Dev</div>
+                        <div class="course-level-badge level-intermediate">Intermediate</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">06</div>
+                        <h3>React Native: Cross-Platform Apps</h3>
+                        <p>Build production iOS and Android apps from a single codebase. Covers navigation, state
+                            management with Redux, push notifications, and App Store submission.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">14 Weeks &nbsp;·&nbsp; 110 Lessons</div>
+                            <div class="course-rating">4.7 ★ <span>(800 reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="course-card" data-category="web" data-delay="1">
+                    <div class="course-card-image">
+                        <img src="images/js.webp" alt="Advanced JavaScript">
+                        <div class="course-badge">Web Dev</div>
+                        <div class="course-level-badge level-advanced">Advanced</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">07</div>
+                        <h3>Advanced JavaScript &amp; TypeScript</h3>
+                        <p>Go beyond the basics. Deep dive into closures, the event loop, design patterns, TypeScript
+                            generics, and performance optimisation strategies.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">10 Weeks &nbsp;·&nbsp; 80 Lessons</div>
+                            <div class="course-rating">4.9 ★ <span>(1.6k reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="course-card" data-category="ai" data-delay="2">
+                    <div class="course-card-image">
+                        <img src="images/llm.webp" alt="Generative AI">
+                        <div class="course-badge">AI &amp; ML</div>
+                        <div class="course-level-badge level-intermediate">Intermediate</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">08</div>
+                        <h3>Generative AI &amp; Prompt Engineering</h3>
+                        <p>Build real-world LLM-powered applications. Covers OpenAI APIs, LangChain, RAG pipelines,
+                            vector databases, and production-grade AI agents.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">8 Weeks &nbsp;·&nbsp; 60 Lessons</div>
+                            <div class="course-rating">4.9 ★ <span>(2.2k reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="course-card" data-category="data" data-delay="3">
+                    <div class="course-card-image">
+                        <img src="images/SQL, Analytics & Business Intelligence.webp" alt="SQL & Analytics">
+                        <div class="course-badge">Data Science</div>
+                        <div class="course-level-badge level-beginner">Beginner</div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-card-number">09</div>
+                        <h3>SQL, Analytics &amp; Business Intelligence</h3>
+                        <p>Write complex queries, build dashboards, and transform raw data into strategic decisions
+                            using PostgreSQL, dbt, and Tableau.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-meta">
+                            <div class="course-duration">8 Weeks &nbsp;·&nbsp; 65 Lessons</div>
+                            <div class="course-rating">4.7 ★ <span>(740 reviews)</span></div>
+                        </div>
+                        <div class="course-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results" id="noResults">
+                    <h3>No courses found.</h3>
+                    <p>Try a different category or browse all courses.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ── 4. MARQUEE DIVIDER ── -->
+        <section class="marquee-section">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <span>PYTHON</span>
+                    <div class="marquee-dot"></div>
+                    <span>REACT.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>NODE.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>TENSORFLOW</span>
+                    <div class="marquee-dot"></div>
+                    <span>AWS</span>
+                    <div class="marquee-dot"></div>
+                    <span>FIGMA</span>
+                    <div class="marquee-dot"></div>
+                    <span>DOCKER</span>
+                    <div class="marquee-dot"></div>
+                    <span>TYPESCRIPT</span>
+                    <div class="marquee-dot"></div>
+                </div>
+                <div class="marquee-content">
+                    <span>PYTHON</span>
+                    <div class="marquee-dot"></div>
+                    <span>REACT.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>NODE.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>TENSORFLOW</span>
+                    <div class="marquee-dot"></div>
+                    <span>AWS</span>
+                    <div class="marquee-dot"></div>
+                    <span>FIGMA</span>
+                    <div class="marquee-dot"></div>
+                    <span>DOCKER</span>
+                    <div class="marquee-dot"></div>
+                    <span>TYPESCRIPT</span>
+                    <div class="marquee-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── 5. LEARNING TRACKS (full-width feature rows) ── -->
+        <section class="tracks-section">
+
+            <div class="track-row">
+                <div class="track-text">
+                    <div class="track-number">01</div>
+                    <div class="track-eyebrow">Learning Track</div>
+                    <h2>Web Development</h2>
+                    <p>From writing your first HTML tag to shipping full-stack production applications — our web track
+                        is the most comprehensive on the market.</p>
+                    <div class="track-pills">
+                        <div class="track-pill">HTML &amp; CSS</div>
+                        <div class="track-pill">JavaScript</div>
+                        <div class="track-pill">React</div>
+                        <div class="track-pill">Node.js</div>
+                        <div class="track-pill">Databases</div>
+                    </div>
+                </div>
+                <div class="track-visual">
+                    <img src="images/web developement.webp" alt="Web Development">
+                </div>
+            </div>
+
+            <div class="track-row">
+                <div class="track-text">
+                    <div class="track-number">02</div>
+                    <div class="track-eyebrow">Learning Track</div>
+                    <h2>Data Science &amp;<br>Analytics</h2>
+                    <p>Turn raw, messy data into compelling stories and decisions. The only data track designed with
+                        both statistical rigour and business context.</p>
+                    <div class="track-pills">
+                        <div class="track-pill">Python</div>
+                        <div class="track-pill">Pandas</div>
+                        <div class="track-pill">SQL</div>
+                        <div class="track-pill">Tableau</div>
+                        <div class="track-pill">Statistics</div>
+                    </div>
+                </div>
+                <div class="track-visual">
+                    <img src="images/Data Science & analytics.webp" alt="Data Science">
+                </div>
+            </div>
+
+            <div class="track-row">
+                <div class="track-text">
+                    <div class="track-number">03</div>
+                    <div class="track-eyebrow">Learning Track</div>
+                    <h2>Artificial<br>Intelligence &amp; ML</h2>
+                    <p>Go from theory to production. Build real models that solve real problems — from computer vision
+                        to large language models and autonomous agents.</p>
+                    <div class="track-pills">
+                        <div class="track-pill">TensorFlow</div>
+                        <div class="track-pill">PyTorch</div>
+                        <div class="track-pill">LangChain</div>
+                        <div class="track-pill">MLOps</div>
+                        <div class="track-pill">Transformers</div>
+                    </div>
+                </div>
+                <div class="track-visual">
+                    <img src="./images/data science.webp" alt="AI and Machine Learning">
+                </div>
+            </div>
+
+            <div class="track-row">
+                <div class="track-text">
+                    <div class="track-number">04</div>
+                    <div class="track-eyebrow">Learning Track</div>
+                    <h2>UI/UX Design</h2>
+                    <p>Design products that people love. Combining design thinking, psychology, and Figma mastery to
+                        create experiences that convert and delight.</p>
+                    <div class="track-pills">
+                        <div class="track-pill">Figma</div>
+                        <div class="track-pill">Prototyping</div>
+                        <div class="track-pill">Design Systems</div>
+                        <div class="track-pill">User Research</div>
+                    </div>
+                </div>
+                <div class="track-visual">
+                    <img src="images/ui wx.webp" alt="UI/UX Design">
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ── 6. TESTIMONIALS ── -->
+        <section class="testimonial-section">
+            <span class="quote-mark">"</span>
+            <div class="testimonial-carousel" id="testimonialCarousel">
+                <div class="testimonial-slide active">
+                    <p class="testimonial-text">The Full-Stack course didn't just teach me code — it taught me how to
+                        think like an engineer. I had a job offer before finishing the final module.</p>
+                    <span class="testimonial-author">James Carter &mdash; Senior Engineer @ TechFlow</span>
+                </div>
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">Stackly's Data Science track was the clearest, most structured path from
+                        zero to portfolio-ready I've ever seen. Completely worth every hour.</p>
+                    <span class="testimonial-author">Aisha Patel &mdash; Data Analyst @ Stripe</span>
+                </div>
+                <div class="testimonial-slide">
+                    <p class="testimonial-text">I rebuilt my entire company's design system after taking the UI/UX
+                        track. The Figma deep-dives are unmatched anywhere on the internet.</p>
+                    <span class="testimonial-author">Elena Vasquez &mdash; Lead Designer @ Nova Studio</span>
+                </div>
+            </div>
+            <div class="testimonial-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+            </div>
+        </section>
+
+        <!-- ── 7. CTA ── -->
+        <section class="cta-section reveal">
+            <h2>Not sure where<br>to start?</h2>
+            <a href="404.html" class="btn-primary">See the Learning Path</a>
+        </section>
+
+    </main>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-heading">
+                LET'S WORK<br>TOGETHER
+            </div>
+            
+            <div class="footer-links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="journal.html">Journal</a></li>
+                    <li><a href="contact.html">Let's Talk</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="404.html">Twitter</a></li>
+                    <li><a href="404.html">LinkedIn</a></li>
+                    <li><a href="404.html">Instagram</a></li>
+                    <li><a href="404.html">GitHub</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-info">
+                <h4>Stackly HQ</h4>
+                <p>1404 Tech Park Ave<br>Salem, TN 636001<br>India</p>
+                <a href="404.html">hello@stackly.com</a>
+                <p>+91 12345 67890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <div class="copyright">© 2026 STACKLY EDUCATION™</div>
+            <div class="mobile-socials" style="display:none; color:var(--text-color);">
+                <span>Ig</span><span>Tw</span><span>Fb</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ── 1. Loader ── */
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    document.body.classList.add('loaded');
+                }, 600);
+            }, 1800);
+        });
+
+        /* ── 2. Mobile Menu ── */
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const HAMBURGER_SVG = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+        const CLOSE_SVG = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = isOpen ? CLOSE_SVG : HAMBURGER_SVG;
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = HAMBURGER_SVG;
+                document.body.style.overflow = '';
+            });
+        });
+
+        /* ── 3. Filter Logic ── */
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.course-card');
+        const noResults = document.getElementById('noResults');
+
+        function applyFilter(filter) {
+            let visible = 0;
+
+            cards.forEach((card, i) => {
+                const match = filter === 'all' || card.dataset.category === filter;
+                card.classList.toggle('hidden', !match);
+                if (match) {
+                    visible++;
+                    // Re-trigger reveal for visible cards
+                    card.classList.remove('in-view');
+                    card.style.transitionDelay = (visible % 3 * 0.1) + 's';
+                    setTimeout(() => card.classList.add('in-view'), 50 + (visible % 3) * 80);
+                }
+            });
+
+            noResults.style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                applyFilter(btn.dataset.filter);
+            });
+        });
+
+        /* ── 4. Course Card Scroll Reveal ── */
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('hidden')) {
+                    entry.target.classList.add('in-view');
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        cards.forEach(card => {
+            cardObserver.observe(card);
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+                window.location.href = '404.html';
+            });
+        });
+
+        /* ── 5. Track Row Scroll Reveal ── */
+        const trackRows = document.querySelectorAll('.track-row');
+        const trackObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    trackObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+
+        trackRows.forEach(row => trackObserver.observe(row));
+
+        /* ── 6. General .reveal Observer ── */
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); }
+            });
+        }, { threshold: 0.1 });
+        revealEls.forEach(el => revealObs.observe(el));
+
+        /* ── 7. Testimonial Carousel ── */
+        const testSlides = document.querySelectorAll('.testimonial-slide');
+        const testDots = document.querySelectorAll('.dot');
+        let currentTest = 0;
+        let testInterval;
+
+        function showTestimonial(index) {
+            testSlides.forEach(s => s.classList.remove('active'));
+            testDots.forEach(d => d.classList.remove('active'));
+            testSlides[index].classList.add('active');
+            testDots[index].classList.add('active');
+            currentTest = index;
+        }
+
+        testDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => { showTestimonial(i); resetInterval(); });
+        });
+
+        function resetInterval() {
+            clearInterval(testInterval);
+            testInterval = setInterval(() => showTestimonial((currentTest + 1) % testSlides.length), 6000);
+        }
+        resetInterval();
+
+        /* ── 8. Responsive footer socials ── */
+        function handleResize() {
+            const soc = document.querySelector('.mobile-socials');
+            if (soc) soc.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+        }
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    </script>
+</body>
+
+</html>
