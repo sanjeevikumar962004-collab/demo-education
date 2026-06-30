@@ -14,6 +14,7 @@
             --border-color: #eaeaea;
             --primary-accent: #2b1055;
             --progress-color: #111111;
+            --error-color: #ff3b30;
         }
 
         /* Dark mode palette */
@@ -132,6 +133,20 @@
 
         .nav-link:hover, .nav-link.active {
             color: var(--text-color);
+        }
+
+        .logout-link {
+            color: var(--error-color) !important;
+            transition: opacity 0.3s ease, transform 0.2s ease !important;
+        }
+
+        .logout-link:hover {
+            opacity: 0.8;
+            transform: translateX(3px);
+        }
+
+        .logout-link svg {
+            stroke: var(--error-color) !important;
         }
 
         .nav-link svg {
@@ -542,7 +557,339 @@
             color: var(--text-color);
         }
 
-        /* Responsive Design styling */
+        /* Responsive Design styling moved to end of styles to prevent override bugs */
+
+        /* Dynamic dashboard sections custom style */
+        .dashboard-section {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tabs styling */
+        .section-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            color: var(--text-color);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.85rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+        }
+
+        /* Settings Form Styling */
+        .settings-card {
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            max-width: 650px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 580px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        @media (max-width: 580px) {
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+        .form-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+        }
+        .form-input {
+            padding: 1rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--text-color);
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .checkbox-group input {
+            accent-color: var(--text-color);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Roadmap Timeline Styling */
+        .roadmap {
+            position: relative;
+            padding: 2rem 0;
+            max-width: 800px;
+        }
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border-color);
+        }
+        .roadmap-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 3rem;
+        }
+        .roadmap-item:last-child {
+            margin-bottom: 0;
+        }
+        .roadmap-dot {
+            position: absolute;
+            left: 11px;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            border: 4px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        .roadmap-item.completed .roadmap-dot {
+            background-color: #34c759;
+            border-color: #34c759;
+            box-shadow: 0 0 10px rgba(52, 199, 89, 0.4);
+        }
+        .roadmap-item.active .roadmap-dot {
+            background-color: var(--bg-color);
+            border-color: var(--text-color);
+            box-shadow: 0 0 10px rgba(17, 17, 17, 0.2);
+        }
+        .roadmap-content {
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 0;
+        }
+        .roadmap-meta {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .badge {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .badge.success {
+            background-color: rgba(52, 199, 89, 0.1);
+            color: #34c759;
+        }
+        .badge.warning {
+            background-color: rgba(255, 149, 0, 0.1);
+            color: #ff9500;
+        }
+        .badge.muted {
+            background-color: var(--border-color);
+            color: var(--gray-color);
+        }
+
+        /* Assignments & Table UI */
+        .assignments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .assignment-row {
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            transition: border-color 0.3s;
+        }
+        .assignment-row:hover {
+            border-color: var(--text-color);
+        }
+        .assignment-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .assignment-info h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .assignment-info p {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            font-weight: 600;
+        }
+        .assignment-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .assignment-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .status-dot.green { background-color: #34c759; }
+        .status-dot.yellow { background-color: #ff9500; }
+        .status-dot.red { background-color: #ff3b30; }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 1rem 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1100;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Validation error styling */
+        .error-msg {
+            color: #ff3b30;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+            display: none;
+        }
+
+        .form-group.has-error input {
+            border-color: #ff3b30 !important;
+        }
+
+        /* Responsive Design styling defined at end of stylesheet to ensure it takes precedence */
         @media (max-width: 1024px) {
             body {
                 flex-direction: column;
@@ -598,6 +945,29 @@
             .course-grid {
                 grid-template-columns: 1fr;
             }
+            .assignment-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            .assignment-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .roadmap-item {
+                padding-left: 40px;
+            }
+            .roadmap::before {
+                left: 10px;
+            }
+            .roadmap-dot {
+                left: 1px;
+                width: 18px;
+                height: 18px;
+            }
+            .roadmap-content {
+                padding: 1.25rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -645,23 +1015,23 @@
         <div class="sidebar-top">
             <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
             <nav class="nav-links">
-                <a href="404.html" class="nav-link active">
+                <a href="#" class="nav-link active" onclick="switchSection(event, 'dashboard')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
                     Dashboard
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'courses')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                     My Courses
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'path')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
                     Learning Path
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'assignments')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                     Assignments
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'settings')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Settings
                 </a>
@@ -675,7 +1045,7 @@
                 </svg>
                 <span id="themeLabel">Dark Mode</span>
             </button>
-            <a href="#" class="nav-link" onclick="handleLogout(event)" style="color: var(--error-color);">
+            <a href="#" class="nav-link logout-link" onclick="handleLogout(event)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 Log Out
             </a>
@@ -702,7 +1072,7 @@
         </header>
 
         <!-- Widgets Layout Grid -->
-        <div class="dashboard-grid">
+        <div id="dashboard-section" class="dashboard-section dashboard-grid">
             
             <!-- Main Column -->
             <div class="main-column">
@@ -858,9 +1228,297 @@
 
             </div>
 
+        </div> <!-- End of dashboard-section -->
+
+        <!-- My Courses Section -->
+        <div id="courses-section" class="dashboard-section" style="display: none;">
+            <div class="section-tabs">
+                <button class="tab-btn active" onclick="switchCourseTab(event, 'enrolled')">Enrolled</button>
+                <button class="tab-btn" onclick="switchCourseTab(event, 'available')">Explore Catalog</button>
+            </div>
+            
+            <!-- Enrolled Courses Content -->
+            <div id="enrolled-courses-tab">
+                <div class="course-list-area">
+                    <div class="course-grid">
+                        <div class="course-card" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                            <div>
+                                <div class="course-card-meta">Web Dev &middot; 24 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">Full-Stack Web Masterclass</h4>
+                                <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Instructor: Dr. Angela Yu</p>
+                            </div>
+                            <div class="course-card-footer">
+                                <div class="course-card-progress">42% Done</div>
+                                <div class="resume-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                            <div>
+                                <div class="course-card-meta">AI &amp; ML &middot; 20 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">Machine Learning with TensorFlow</h4>
+                                <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Instructor: Prof. Andrew Ng</p>
+                            </div>
+                            <div class="course-card-footer">
+                                <div class="course-card-progress">68% Done</div>
+                                <div class="resume-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                            <div>
+                                <div class="course-card-meta">Design &middot; 12 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">UI/UX Design Systems in Figma</h4>
+                                <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Instructor: Figma Team</p>
+                            </div>
+                            <div class="course-card-footer">
+                                <div class="course-card-progress">10% Done</div>
+                                <div class="resume-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Explore Catalog Tab Content -->
+            <div id="available-courses-tab" style="display: none;">
+                <div class="course-list-area">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div>
+                                <div class="course-card-meta">Computer Science &middot; 16 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">Advanced Data Structures &amp; Algorithms</h4>
+                                <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Master algorithmic patterns, complexity, and coding interview strategies.</p>
+                            </div>
+                            <div class="course-card-footer">
+                                <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary-accent); cursor: pointer;" onclick="window.location.href='404.html'">Enroll Course</span>
+                                <div class="resume-arrow" style="cursor: pointer;" onclick="window.location.href='404.html'">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div>
+                                <div class="course-card-meta">Web Dev &middot; 8 Weeks</div>
+                                <h4 style="margin-top: 0.5rem;">Next.js Production-Ready Boilerplate</h4>
+                                <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Build, test, deploy modern serverless react web apps globally.</p>
+                            </div>
+                            <div class="course-card-footer">
+                                <span style="font-size: 0.75rem; font-weight: 700; color: var(--primary-accent); cursor: pointer;" onclick="window.location.href='404.html'">Enroll Course</span>
+                                <div class="resume-arrow" style="cursor: pointer;" onclick="window.location.href='404.html'">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path Section -->
+        <div id="path-section" class="dashboard-section" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h3>Your Curriculum Progress</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-top: 0.5rem;">Follow your roadmap and complete challenges to unlock advanced topics.</p>
+            </div>
+            
+            <div class="roadmap">
+                <div class="roadmap-item completed">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                        <div class="roadmap-meta">
+                            <span>Stage 1</span> &middot; <span>Fundamentals</span>
+                            <span class="badge success">Completed</span>
+                        </div>
+                        <h4>HTML5, CSS3, &amp; Basic Programming</h4>
+                        <p style="color: var(--gray-color); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.5;">Master standard semantic code practices, layouts with grid and flexbox, variables, loops, and responsive setups.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item active">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                        <div class="roadmap-meta">
+                            <span>Stage 2</span> &middot; <span>Frontend Stack</span>
+                            <span class="badge warning">In Progress</span>
+                        </div>
+                        <h4>ES6 JavaScript, React, and State Management</h4>
+                        <p style="color: var(--gray-color); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.5;">Current study path. Understand functional programming, DOM APIs, component life cycle, hooks, and routing patterns.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content" onclick="window.location.href='404.html'" style="cursor: pointer;">
+                        <div class="roadmap-meta">
+                            <span>Stage 3</span> &middot; <span>Back-End Core</span>
+                            <span class="badge muted">Locked</span>
+                        </div>
+                        <h4>Node.js, Express, and Database Architectures</h4>
+                        <p style="color: var(--gray-color); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.5;">Upcoming stage. Study server handling, REST APIs, JSON Web Tokens authorization, SQL databases and MongoDB.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignments Section -->
+        <div id="assignments-section" class="dashboard-section" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h3>Active Assignment Deliverables</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-top: 0.5rem;">Track due dates and submit files directly to the evaluation portal.</p>
+            </div>
+            
+            <div class="assignments-list">
+                <div class="assignment-row">
+                    <div class="assignment-info">
+                        <h4>Python ML model parameters tuning</h4>
+                        <p>Machine Learning with TensorFlow &middot; Due in 2 days</p>
+                    </div>
+                    <div class="assignment-actions">
+                        <span class="assignment-status">
+                            <span class="status-dot yellow"></span>
+                            In Progress
+                        </span>
+                        <button class="btn-resume" style="padding: 0.75rem 1.5rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">Submit</button>
+                    </div>
+                </div>
+
+                <div class="assignment-row">
+                    <div class="assignment-info">
+                        <h4>Figma wireframes for portfolio site</h4>
+                        <p>UI/UX Design Systems in Figma &middot; Due in 5 days</p>
+                    </div>
+                    <div class="assignment-actions">
+                        <span class="assignment-status">
+                            <span class="status-dot yellow"></span>
+                            In Progress
+                        </span>
+                        <button class="btn-resume" style="padding: 0.75rem 1.5rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">Submit</button>
+                    </div>
+                </div>
+
+                <div class="assignment-row">
+                    <div class="assignment-info">
+                        <h4>Asynchronous API request handler</h4>
+                        <p>Full-Stack Web Masterclass &middot; Graded 94/100</p>
+                    </div>
+                    <div class="assignment-actions">
+                        <span class="assignment-status">
+                            <span class="status-dot green"></span>
+                            Completed
+                        </span>
+                        <button class="btn-resume" style="padding: 0.75rem 1.5rem; font-size: 0.7rem; margin: 0; background-color: var(--light-gray); color: var(--text-color); border-color: var(--border-color); cursor: default;" disabled>Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings-section" class="dashboard-section" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h3>Portal settings</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-top: 0.5rem;">Configure account variables, profile details, and notifications.</p>
+            </div>
+            
+            <div class="settings-card">
+                <form id="userSettingsForm" onsubmit="saveSettings(event)" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group" id="nameGroup">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" id="settingsFullName" value="Jane Doe" required>
+                            <span class="error-msg" id="nameError" style="display: none;"></span>
+                        </div>
+                        <div class="form-group" id="passwordGroup">
+                            <label class="form-label">New Password</label>
+                            <input type="password" class="form-input" id="settingsPassword" placeholder="••••••••">
+                            <span class="error-msg" id="passwordError" style="display: none;"></span>
+                        </div>
+                        <div class="form-group" id="confirmPasswordGroup">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-input" id="settingsConfirmPassword" placeholder="••••••••">
+                            <span class="error-msg" id="confirmPasswordError" style="display: none;"></span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem;">Notification Alerts</h4>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifyEmail" checked>
+                            <label for="notifyEmail" style="font-size: 0.85rem; font-weight: 600; cursor: pointer;">Email update digest on assignment submissions</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifySlack" checked>
+                            <label for="notifySlack" style="font-size: 0.85rem; font-weight: 600; cursor: pointer;">Daily alerts for course schedule</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-resume" style="margin: 0;">Save settings</button>
+                </form>
+            </div>
         </div>
 
     </main>
+
+    <!-- Assignment Submission Modal -->
+    <div id="submitModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSubmitModal()">&times;</button>
+            <div class="modal-header">
+                <h3>Submit Assignment</h3>
+                <p id="modalAssignmentName" style="color: var(--gray-color); font-size: 0.9rem; margin-bottom: 1.5rem;"></p>
+            </div>
+            <form onsubmit="handleAssignmentSubmit(event)">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Repository / Hosting URL</label>
+                    <input type="url" class="form-input" placeholder="https://github.com/..." required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Add Note (Optional)</label>
+                    <textarea class="form-input" rows="3" placeholder="Additional details..." style="resize: none; font-family: inherit;"></textarea>
+                </div>
+                <button type="submit" class="btn-resume" style="width: 100%; margin: 0; display: block; text-align: center;">Upload Work</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Course Lecture Modal -->
+    <div id="lectureModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close" onclick="closeLectureModal()">&times;</button>
+            <div class="modal-header">
+                <h3 id="modalCourseTitle">Course lectures</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-bottom: 1.5rem;">Resume learning and study resources.</p>
+            </div>
+            
+            <div style="background-color: #000; width: 100%; height: 220px; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 700; margin-bottom: 1.5rem; position: relative;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.8));"></div>
+                <div style="z-index: 10; text-align: center;">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor" style="color: #fff; cursor: pointer; transition: transform 0.2s;" onclick="showToast('Starting video lecture playback...')"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">Chapter 4: Async Programming Patterns</p>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 200px; overflow-y: auto;">
+                <div style="padding: 0.75rem; background-color: var(--light-gray); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="showToast('Playing Section 1...')">
+                    <span style="font-size: 0.85rem; font-weight: 600;">1. Introduction &amp; Setup</span>
+                    <span style="font-size: 0.75rem; color: var(--gray-color);">12:04</span>
+                </div>
+                <div style="padding: 0.75rem; background-color: var(--light-gray); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="showToast('Playing Section 2...')">
+                    <span style="font-size: 0.85rem; font-weight: 600;">2. Promises and Resolution</span>
+                    <span style="font-size: 0.75rem; color: var(--gray-color);">18:30</span>
+                </div>
+                <div style="padding: 0.75rem; background-color: var(--light-gray); display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="showToast('Playing Section 3...')">
+                    <span style="font-size: 0.85rem; font-weight: 600;">3. Advanced Error Handling</span>
+                    <span style="font-size: 0.75rem; color: var(--gray-color);">22:15</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="actionToast" class="toast">Action Saved Successfully</div>
 
     <script>
         // Init dynamic user data on window load
@@ -932,6 +1590,249 @@
             ` : `
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             `;
+        }
+
+        // Section Navigation Logic
+        function switchSection(event, sectionId) {
+            if (event) event.preventDefault();
+            
+            // Toggle active classes on nav links
+            const navLinks = document.querySelectorAll('.nav-links .nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find current clicked link or link matching onclick
+            let clickedLink = event ? event.currentTarget : null;
+            if (!clickedLink) {
+                clickedLink = Array.from(navLinks).find(link => link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${sectionId}'`));
+            }
+            if (clickedLink) {
+                clickedLink.classList.add('active');
+            }
+            
+            // Hide all dashboard sections
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+            });
+            
+            // Show target section
+            const targetSection = document.getElementById(`${sectionId}-section`);
+            if (targetSection) {
+                targetSection.style.display = (sectionId === 'dashboard') ? 'grid' : 'block';
+            }
+            
+            // Update page header title
+            const greeting = document.getElementById('welcomeGreeting');
+            if (greeting) {
+                const email = localStorage.getItem('logged_in_email') || sessionStorage.getItem('logged_in_email') || "student@example.com";
+                const username = email.split('@')[0];
+                if (sectionId === 'dashboard') {
+                    greeting.textContent = `Welcome back, ${username}.`;
+                } else if (sectionId === 'courses') {
+                    greeting.textContent = 'My Courses.';
+                } else if (sectionId === 'path') {
+                    greeting.textContent = 'Learning Path.';
+                } else if (sectionId === 'assignments') {
+                    greeting.textContent = 'Assignments.';
+                } else if (sectionId === 'settings') {
+                    greeting.textContent = 'Portal Settings.';
+                }
+            }
+
+            // Close mobile sidebar if open
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && sidebar.classList.contains('active')) {
+                toggleMobileSidebar();
+            }
+        }
+
+        // Sub-tabs switching for Courses
+        function switchCourseTab(event, tabId) {
+            event.preventDefault();
+            const tabButtons = document.querySelectorAll('#courses-section .tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if (tabId === 'enrolled') {
+                document.getElementById('enrolled-courses-tab').style.display = 'block';
+                document.getElementById('available-courses-tab').style.display = 'none';
+            } else {
+                document.getElementById('enrolled-courses-tab').style.display = 'none';
+                document.getElementById('available-courses-tab').style.display = 'block';
+            }
+        }
+
+        // Enroll in a Course helper
+        function enrollCourse(courseName) {
+            showToast(`Enrolled in "${courseName}"!`);
+            // Add a mock card to enrolled courses grid
+            const enrolledGrid = document.querySelector('#enrolled-courses-tab .course-grid');
+            if (enrolledGrid) {
+                const card = document.createElement('div');
+                card.className = 'course-card';
+                card.onclick = () => window.location.href = '404.html';
+                card.style.cursor = 'pointer';
+                card.innerHTML = `
+                    <div>
+                        <div class="course-card-meta">Self-Paced &middot; 12 Weeks</div>
+                        <h4 style="margin-top: 0.5rem;">${courseName}</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-color); margin-top: 0.5rem;">Instructor: Guest Expert</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <div class="course-card-progress">0% Done</div>
+                        <div class="resume-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        </div>
+                    </div>
+                `;
+                enrolledGrid.appendChild(card);
+            }
+            // Switch tab back to enrolled
+            const enrolledTabBtn = document.querySelector('#courses-section .tab-btn');
+            if (enrolledTabBtn) {
+                enrolledTabBtn.click();
+            }
+        }
+
+        // Modal triggers
+        let currentSubmitAssignmentName = '';
+        function openSubmitModal(assignmentName) {
+            currentSubmitAssignmentName = assignmentName;
+            document.getElementById('modalAssignmentName').textContent = assignmentName;
+            document.getElementById('submitModal').classList.add('active');
+        }
+        function closeSubmitModal() {
+            document.getElementById('submitModal').classList.remove('active');
+        }
+        function handleAssignmentSubmit(e) {
+            e.preventDefault();
+            closeSubmitModal();
+            showToast(`Submission upload successful!`);
+            // Update assignment status on the row
+            const rows = document.querySelectorAll('.assignment-row');
+            rows.forEach(row => {
+                const title = row.querySelector('.assignment-info h4').textContent;
+                if (title === currentSubmitAssignmentName) {
+                    const statusSpan = row.querySelector('.assignment-status');
+                    statusSpan.innerHTML = '<span class="status-dot green"></span> Submitted';
+                    const button = row.querySelector('button');
+                    if (button) {
+                        button.textContent = 'Submitted';
+                        button.disabled = true;
+                        button.style.backgroundColor = 'var(--light-gray)';
+                        button.style.color = 'var(--text-color)';
+                        button.style.borderColor = 'var(--border-color)';
+                        button.style.cursor = 'default';
+                    }
+                }
+            });
+        }
+
+        function openLectureModal(courseName) {
+            document.getElementById('modalCourseTitle').textContent = courseName;
+            document.getElementById('lectureModal').classList.add('active');
+        }
+        function closeLectureModal() {
+            document.getElementById('lectureModal').classList.remove('active');
+        }
+
+        // Save Settings
+        function areSettingsConstraintsFulfilled() {
+            const nameInput = document.getElementById('settingsFullName');
+            const passInput = document.getElementById('settingsPassword');
+            const confirmInput = document.getElementById('settingsConfirmPassword');
+            
+            if (!nameInput) return false;
+            
+            const name = nameInput.value.trim();
+            const pass = passInput ? passInput.value : '';
+            const confirm = confirmInput ? confirmInput.value : '';
+            
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (name.length < 3 || !nameRegex.test(name)) return false;
+            if (pass || confirm) {
+                if (pass.length < 8) return false;
+                if (pass !== confirm) return false;
+            }
+            return true;
+        }
+
+        function saveSettings(e) {
+            if (e) e.preventDefault();
+            
+            const nameInput = document.getElementById('settingsFullName');
+            const passInput = document.getElementById('settingsPassword');
+            const confirmInput = document.getElementById('settingsConfirmPassword');
+            
+            const nameGroup = document.getElementById('nameGroup');
+            const passwordGroup = document.getElementById('passwordGroup');
+            const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+            
+            const nameError = document.getElementById('nameError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            
+            let isValid = true;
+            
+            // Reset
+            nameGroup.classList.remove('has-error');
+            nameError.style.display = 'none';
+            passwordGroup.classList.remove('has-error');
+            passwordError.style.display = 'none';
+            confirmPasswordGroup.classList.remove('has-error');
+            confirmPasswordError.style.display = 'none';
+            
+            const name = nameInput.value.trim();
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (!name) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Full name is required.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else if (name.length < 3) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Name must be at least 3 characters.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else if (!nameRegex.test(name)) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Name should contain alphabetic characters only.';
+                nameError.style.display = 'block';
+                isValid = false;
+            }
+            
+            const pass = passInput.value;
+            const confirm = confirmInput.value;
+            if (pass || confirm) {
+                if (pass.length < 8) {
+                    passwordGroup.classList.add('has-error');
+                    passwordError.textContent = 'Password must be at least 8 characters.';
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                }
+                if (pass !== confirm) {
+                    confirmPasswordGroup.classList.add('has-error');
+                    confirmPasswordError.textContent = 'Passwords do not match.';
+                    confirmPasswordError.style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            if (isValid) {
+                window.location.href = '404.html';
+            }
+        }
+
+        // Toast Helper
+        function showToast(message) {
+            const toast = document.getElementById('actionToast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         // Handle Logout Action

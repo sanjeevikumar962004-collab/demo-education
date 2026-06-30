@@ -14,6 +14,7 @@
             --border-color: #eaeaea;
             --success-color: #34c759;
             --primary-accent: #2b1055;
+            --error-color: #ff3b30;
         }
 
         /* Dark mode palette */
@@ -131,6 +132,20 @@
 
         .nav-link:hover, .nav-link.active {
             color: var(--text-color);
+        }
+
+        .logout-link {
+            color: var(--error-color) !important;
+            transition: opacity 0.3s ease, transform 0.2s ease !important;
+        }
+
+        .logout-link:hover {
+            opacity: 0.8;
+            transform: translateX(3px);
+        }
+
+        .logout-link svg {
+            stroke: var(--error-color) !important;
         }
 
         .nav-link svg {
@@ -518,7 +533,222 @@
             color: var(--text-color);
         }
 
-        /* Responsive styling */
+        /* Responsive Design styling moved to end of styles to prevent override bugs */
+
+        /* Dynamic dashboard sections custom style */
+        .dashboard-section {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tabs styling */
+        .section-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            color: var(--text-color);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.85rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+        }
+
+        /* Settings Card & Forms */
+        .settings-card {
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            max-width: 650px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 580px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        @media (max-width: 580px) {
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+        .form-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-color);
+        }
+        .form-input {
+            padding: 1rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--text-color);
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .checkbox-group input {
+            accent-color: var(--text-color);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Modal Layout */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 1rem 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1100;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .btn-resume {
+            align-self: flex-start;
+            padding: 1rem 2rem;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-resume:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        /* Validation error styling */
+        .error-msg {
+            color: #ff3b30;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+            display: none;
+        }
+
+        .form-group.has-error input {
+            border-color: #ff3b30 !important;
+        }
+
+        /* Responsive styling defined at the end to ensure it takes precedence */
         @media (max-width: 1200px) {
             .metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -643,23 +873,23 @@
         <div class="sidebar-top">
             <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
             <nav class="nav-links">
-                <a href="404.html" class="nav-link active">
+                <a href="#" class="nav-link active" onclick="switchSection(event, 'overview')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
                     Overview
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'registry')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     Student Registry
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'courses')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                     Course Manager
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'financials')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                     Financials
                 </a>
-                <a href="404.html" class="nav-link">
+                <a href="#" class="nav-link" onclick="switchSection(event, 'settings')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Settings
                 </a>
@@ -673,7 +903,7 @@
                 </svg>
                 <span id="themeLabel">Dark Mode</span>
             </button>
-            <a href="#" class="nav-link" onclick="handleLogout(event)" style="color: rgba(255, 59, 48, 0.9);">
+            <a href="#" class="nav-link logout-link" onclick="handleLogout(event)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 Log Out
             </a>
@@ -699,8 +929,10 @@
             </div>
         </header>
 
-        <!-- Metrics Cards Grid -->
-        <div class="metrics-grid">
+        <!-- Overview Section Wrapper -->
+        <div id="overview-section" class="dashboard-section">
+            <!-- Metrics Cards Grid -->
+            <div class="metrics-grid">
             
             <!-- Metric 1 -->
             <div class="metric-card">
@@ -860,9 +1092,333 @@
                 </div>
             </div>
 
+        </div> <!-- End of dashboard-split -->
+    </div> <!-- End of overview-section -->
+
+        <!-- Student Registry Section -->
+        <div id="registry-section" class="dashboard-section" style="display: none;">
+            <div class="table-area" style="width: 100%;">
+                <div class="table-header" style="flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+                    <h3>Registry Database</h3>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <!-- Status filter tabs -->
+                        <div class="section-tabs" style="border: none; padding: 0; margin: 0; gap: 0.5rem;">
+                            <button class="tab-btn active" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;" onclick="window.location.href='404.html'">All</button>
+                            <button class="tab-btn" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;" onclick="window.location.href='404.html'">Active</button>
+                            <button class="tab-btn" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;" onclick="window.location.href='404.html'">Inactive</button>
+                        </div>
+                        <button class="btn-resume" style="padding: 0.6rem 1.2rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">+ Add Student</button>
+                    </div>
+                </div>
+
+                <div class="registry-table-wrapper">
+                    <table class="registry-table" id="registryTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Course</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-status="active">
+                                <td>Sarah Chen</td>
+                                <td>sarah@stackly.com</td>
+                                <td>Machine Learning</td>
+                                <td>68%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                            </tr>
+                            <tr data-status="active">
+                                <td>James Carter</td>
+                                <td>james.carter@gmail.com</td>
+                                <td>Full-Stack Web Dev</td>
+                                <td>42%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                            </tr>
+                            <tr data-status="inactive">
+                                <td>Aisha Patel</td>
+                                <td>aisha@stripe.com</td>
+                                <td>Data Science</td>
+                                <td>100%</td>
+                                <td><span class="status-badge inactive">Inactive</span></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                            </tr>
+                            <tr data-status="active">
+                                <td>David Park</td>
+                                <td>david.park@yahoo.com</td>
+                                <td>Full-Stack Web Dev</td>
+                                <td>24%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                            </tr>
+                            <tr data-status="active">
+                                <td>Elena Vasquez</td>
+                                <td>elena@nova.design</td>
+                                <td>UI/UX Design</td>
+                                <td>10%</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Manager Section -->
+        <div id="courses-section" class="dashboard-section" style="display: none;">
+            <div class="table-area" style="width: 100%; margin-bottom: 2rem;">
+                <div class="table-header" style="margin-bottom: 2rem;">
+                    <h3>Course Management</h3>
+                    <button class="btn-resume" style="padding: 0.6rem 1.2rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">+ Add New Course</button>
+                </div>
+                
+                <div class="registry-table-wrapper">
+                    <table class="registry-table" id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>Course Title</th>
+                                <th>Instructors</th>
+                                <th>Total Enrolled</th>
+                                <th>Syllabus Length</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 700;">Machine Learning with TensorFlow</td>
+                                <td>Prof. Andrew Ng</td>
+                                <td>412 Students</td>
+                                <td>20 Weeks</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">Full-Stack Web Masterclass</td>
+                                <td>Dr. Angela Yu</td>
+                                <td>580 Students</td>
+                                <td>24 Weeks</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">UI/UX Design Systems in Figma</td>
+                                <td>Figma Team</td>
+                                <td>256 Students</td>
+                                <td>12 Weeks</td>
+                                <td><span class="status-badge active">Active</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">Data Science &amp; Analysis bootcamp</td>
+                                <td>Dr. J. Hammond</td>
+                                <td>0 Students</td>
+                                <td>16 Weeks</td>
+                                <td><span class="status-badge inactive" style="background-color: rgba(255, 149, 0, 0.1); color: #ff9500;">Draft</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Publish</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financials Section -->
+        <div id="financials-section" class="dashboard-section" style="display: none;">
+            <!-- Financial Metric Cards -->
+            <div class="metrics-grid" style="margin-bottom: 3rem;">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Monthly Recurring Revenue (MRR)</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <div class="metric-value-row">
+                        <span class="metric-value">$8,420</span>
+                        <span class="metric-trend">↑ 8% from last month</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Gross Net Revenue</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    </div>
+                    <div class="metric-value-row">
+                        <span class="metric-value">$12,418</span>
+                        <span class="metric-trend">↑ 24% this month</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Pending Invoices</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+                    <div class="metric-value-row">
+                        <span class="metric-value">$1,180</span>
+                        <span class="metric-trend" style="color: #ff9500;">4 pending checks</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Table -->
+            <div class="table-area" style="width: 100%;">
+                <div class="table-header" style="margin-bottom: 2rem;">
+                    <h3>Invoicing Transactions</h3>
+                    <button class="btn-resume" style="padding: 0.6rem 1.2rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">Export Ledger</button>
+                </div>
+                
+                <div class="registry-table-wrapper">
+                    <table class="registry-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Student Email</th>
+                                <th>Course Bundle</th>
+                                <th>Payment Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 700;">#INV-4820</td>
+                                <td>sarah@stackly.com</td>
+                                <td>Machine Learning</td>
+                                <td>$399.00</td>
+                                <td><span class="status-badge active">Paid</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Invoice</a></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">#INV-4821</td>
+                                <td>james.carter@gmail.com</td>
+                                <td>Full-Stack Web Dev</td>
+                                <td>$499.00</td>
+                                <td><span class="status-badge active">Paid</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Invoice</a></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700;">#INV-4822</td>
+                                <td>aisha@stripe.com</td>
+                                <td>Data Science</td>
+                                <td>$299.00</td>
+                                <td><span class="status-badge inactive" style="background-color: rgba(255, 149, 0, 0.1); color: #ff9500;">Pending</span></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remind</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings-section" class="dashboard-section" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h3>Dashboard Admin Configurations</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-top: 0.5rem;">Configure account variables, portal security parameters, and registration options.</p>
+            </div>
+            
+            <div class="settings-card">
+                <form id="adminSettingsForm" onsubmit="saveSettings(event)" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group" id="nameGroup">
+                            <label class="form-label">Admin Name</label>
+                            <input type="text" class="form-input" id="settingsFullName" value="System Admin" required>
+                            <span class="error-msg" id="nameError" style="display: none;"></span>
+                        </div>
+                        <div class="form-group" id="passwordGroup">
+                            <label class="form-label">New Password</label>
+                            <input type="password" class="form-input" id="settingsPassword" placeholder="••••••••">
+                            <span class="error-msg" id="passwordError" style="display: none;"></span>
+                        </div>
+                        <div class="form-group" id="confirmPasswordGroup">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-input" id="settingsConfirmPassword" placeholder="••••••••">
+                            <span class="error-msg" id="confirmPasswordError" style="display: none;"></span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem;">Portal Security Constraints</h4>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifyMaintenance">
+                            <label for="notifyMaintenance" style="font-size: 0.85rem; font-weight: 600; cursor: pointer;">Enable System Maintenance Mode (locks student portals)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifyAudit" checked>
+                            <label for="notifyAudit" style="font-size: 0.85rem; font-weight: 600; cursor: pointer;">Record user transaction audit logs</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-resume" style="margin: 0;">Save settings</button>
+                </form>
+            </div>
         </div>
 
     </main>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAddStudentModal()">&times;</button>
+            <div class="modal-header">
+                <h3>Add New Student</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-bottom: 1.5rem;">Manually provision a student profile.</p>
+            </div>
+            <form onsubmit="handleAddStudentSubmit(event)">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" id="newStudentName" placeholder="Name" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="newStudentEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Course Enrollment</label>
+                    <select class="form-input" id="newStudentCourse" style="font-family: inherit;" required>
+                        <option value="Machine Learning">Machine Learning with TensorFlow</option>
+                        <option value="Full-Stack Web Dev">Full-Stack Web Masterclass</option>
+                        <option value="UI/UX Design">UI/UX Design Systems in Figma</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-resume" style="width: 100%; margin: 0; display: block; text-align: center;">Register Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div id="addCourseModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAddCourseModal()">&times;</button>
+            <div class="modal-header">
+                <h3>Add New Course</h3>
+                <p style="color: var(--gray-color); font-size: 0.9rem; margin-bottom: 1.5rem;">Provision a new course syllabus curriculum.</p>
+            </div>
+            <form onsubmit="handleAddCourseSubmit(event)">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label class="form-label">Course Title</label>
+                    <input type="text" class="form-input" id="newCourseTitle" placeholder="Title" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label class="form-label">Instructor Name</label>
+                    <input type="text" class="form-input" id="newCourseInstructor" placeholder="Instructor" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label class="form-label">Duration (Weeks)</label>
+                    <input type="number" class="form-input" id="newCourseDuration" value="12" min="1" required>
+                </div>
+                <button type="submit" class="btn-resume" style="width: 100%; margin: 0; display: block; text-align: center;">Publish Syllabus</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="actionToast" class="toast">Action Saved Successfully</div>
 
     <script>
         // Init dynamically stored data on load
@@ -951,6 +1507,298 @@
             ` : `
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             `;
+        }
+
+        // Section Switching Logic
+        function switchSection(event, sectionId) {
+            if (event) event.preventDefault();
+            
+            // Toggle active classes on nav links
+            const navLinks = document.querySelectorAll('.nav-links .nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Find current clicked link or link matching onclick
+            let clickedLink = event ? event.currentTarget : null;
+            if (!clickedLink) {
+                clickedLink = Array.from(navLinks).find(link => link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${sectionId}'`));
+            }
+            if (clickedLink) {
+                clickedLink.classList.add('active');
+            }
+            
+            // Hide all dashboard sections
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+            });
+            
+            // Show target section
+            const targetSection = document.getElementById(`${sectionId}-section`);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+            
+            // Update admin page header title
+            const greeting = document.querySelector('.admin-title h1');
+            if (greeting) {
+                if (sectionId === 'overview') {
+                    greeting.textContent = 'Overview.';
+                } else if (sectionId === 'registry') {
+                    greeting.textContent = 'Student Registry.';
+                } else if (sectionId === 'courses') {
+                    greeting.textContent = 'Course Manager.';
+                } else if (sectionId === 'financials') {
+                    greeting.textContent = 'Financials.';
+                } else if (sectionId === 'settings') {
+                    greeting.textContent = 'Portal Configurations.';
+                }
+            }
+
+            // Close mobile sidebar if open
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && sidebar.classList.contains('active')) {
+                toggleMobileSidebar();
+            }
+        }
+
+        // Student Registry filter (All, Active, Inactive)
+        function filterRegistry(event, status) {
+            event.preventDefault();
+            
+            const tabButtons = document.querySelectorAll('#registry-section .tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            const rows = document.querySelectorAll('#registryTable tbody tr');
+            rows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                if (status === 'all' || rowStatus === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Provision/Delete student manual helpers
+        function openAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('active');
+        }
+        function closeAddStudentModal() {
+            document.getElementById('addStudentModal').classList.remove('active');
+        }
+        function handleAddStudentSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('newStudentName').value;
+            const email = document.getElementById('newStudentEmail').value;
+            const course = document.getElementById('newStudentCourse').value;
+
+            // Add row to registry database table
+            const registryTable = document.querySelector('#registryTable tbody');
+            const row = document.createElement('tr');
+            row.setAttribute('data-status', 'active');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${email}</td>
+                <td>${course}</td>
+                <td>0%</td>
+                <td><span class="status-badge active">Active</span></td>
+                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+            `;
+            registryTable.appendChild(row);
+
+            // Add row to Overview registry table too (if it exists)
+            const overviewTable = document.querySelector('#studentTableBody');
+            if (overviewTable) {
+                const oRow = document.createElement('tr');
+                oRow.innerHTML = `
+                    <td>${name}</td>
+                    <td>${email}</td>
+                    <td>${course}</td>
+                    <td>0%</td>
+                    <td><span class="status-badge active">Active</span></td>
+                `;
+                overviewTable.appendChild(oRow);
+            }
+
+            closeAddStudentModal();
+            showToast(`Registered student "${name}"!`);
+            
+            // Reset input values
+            document.getElementById('newStudentName').value = '';
+            document.getElementById('newStudentEmail').value = '';
+        }
+
+        function deleteStudent(e, name) {
+            e.preventDefault();
+            if (confirm(`Are you sure you want to remove student "${name}"?`)) {
+                // Delete row from registry table
+                e.target.closest('tr').remove();
+                
+                // Also search Overview table to remove
+                const overviewRows = document.querySelectorAll('#studentTableBody tr');
+                overviewRows.forEach(row => {
+                    if (row.cells[0].textContent === name) {
+                        row.remove();
+                    }
+                });
+                
+                showToast(`Removed student "${name}"`);
+            }
+        }
+
+        // Course management manual helpers
+        function openAddCourseModal() {
+            document.getElementById('addCourseModal').classList.add('active');
+        }
+        function closeAddCourseModal() {
+            document.getElementById('addCourseModal').classList.remove('active');
+        }
+        function handleAddCourseSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('newCourseTitle').value;
+            const instructor = document.getElementById('newCourseInstructor').value;
+            const duration = document.getElementById('newCourseDuration').value;
+
+            // Add row to Course Management table
+            const coursesTable = document.querySelector('#coursesTable tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td style="font-weight: 700;">${title}</td>
+                <td>${instructor}</td>
+                <td>0 Students</td>
+                <td>${duration} Weeks</td>
+                <td><span class="status-badge active">Active</span></td>
+                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+            `;
+            coursesTable.appendChild(row);
+
+            closeAddCourseModal();
+            showToast(`Published course "${title}"!`);
+
+            // Reset inputs
+            document.getElementById('newCourseTitle').value = '';
+            document.getElementById('newCourseInstructor').value = '';
+            document.getElementById('newCourseDuration').value = '12';
+        }
+
+        function toggleCourseStatus(e) {
+            e.preventDefault();
+            const link = e.target;
+            const row = link.closest('tr');
+            const statusBadge = row.querySelector('.status-badge');
+            
+            if (link.textContent.toLowerCase() === 'draft') {
+                statusBadge.textContent = 'Draft';
+                statusBadge.className = 'status-badge inactive';
+                statusBadge.style.backgroundColor = 'rgba(255, 149, 0, 0.1)';
+                statusBadge.style.color = '#ff9500';
+                link.textContent = 'Publish';
+                showToast('Course changed to Draft mode.');
+            } else {
+                statusBadge.textContent = 'Active';
+                statusBadge.className = 'status-badge active';
+                statusBadge.removeAttribute('style');
+                link.textContent = 'Draft';
+                showToast('Course published successfully!');
+            }
+        }
+
+        // Save configurations settings
+        function areSettingsConstraintsFulfilled() {
+            const nameInput = document.getElementById('settingsFullName');
+            const passInput = document.getElementById('settingsPassword');
+            const confirmInput = document.getElementById('settingsConfirmPassword');
+            
+            if (!nameInput) return false;
+            
+            const name = nameInput.value.trim();
+            const pass = passInput ? passInput.value : '';
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (name.length < 3 || !nameRegex.test(name)) return false;
+            if (pass || confirm) {
+                if (pass.length < 8) return false;
+                if (pass !== confirm) return false;
+            }
+            return true;
+        }
+
+        function saveSettings(e) {
+            if (e) e.preventDefault();
+            
+            const nameInput = document.getElementById('settingsFullName');
+            const passInput = document.getElementById('settingsPassword');
+            const confirmInput = document.getElementById('settingsConfirmPassword');
+            
+            const nameGroup = document.getElementById('nameGroup');
+            const passwordGroup = document.getElementById('passwordGroup');
+            const confirmPasswordGroup = document.getElementById('confirmPasswordGroup');
+            
+            const nameError = document.getElementById('nameError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            
+            let isValid = true;
+            
+            // Reset
+            nameGroup.classList.remove('has-error');
+            nameError.style.display = 'none';
+            passwordGroup.classList.remove('has-error');
+            passwordError.style.display = 'none';
+            confirmPasswordGroup.classList.remove('has-error');
+            confirmPasswordError.style.display = 'none';
+            
+            const name = nameInput.value.trim();
+            const nameRegex = /^[A-Za-z\s]+$/;
+            if (!name) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Admin name is required.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else if (name.length < 3) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Name must be at least 3 characters.';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else if (!nameRegex.test(name)) {
+                nameGroup.classList.add('has-error');
+                nameError.textContent = 'Name should contain alphabetic characters only.';
+                nameError.style.display = 'block';
+                isValid = false;
+            }
+            
+            const pass = passInput.value;
+            const confirm = confirmInput.value;
+            if (pass || confirm) {
+                if (pass.length < 8) {
+                    passwordGroup.classList.add('has-error');
+                    passwordError.textContent = 'Password must be at least 8 characters.';
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                }
+                if (pass !== confirm) {
+                    confirmPasswordGroup.classList.add('has-error');
+                    confirmPasswordError.textContent = 'Passwords do not match.';
+                    confirmPasswordError.style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            if (isValid) {
+                window.location.href = '404.html';
+            }
+        }
+
+        // Feedback toast notification helper
+        function showToast(message) {
+            const toast = document.getElementById('actionToast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         // Handle Logout Action
