@@ -748,6 +748,35 @@
             border-color: #ff3b30 !important;
         }
 
+        .registry-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .registry-tabs {
+            border: none;
+            padding: 0;
+            margin: 0;
+            gap: 0.5rem;
+            display: flex;
+        }
+
+        .registry-tabs .tab-btn {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .registry-tabs .tab-btn.active::after {
+            bottom: -0.5rem;
+        }
+
+        .add-student-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.7rem;
+            margin: 0;
+        }
+
         /* Responsive styling defined at the end to ensure it takes precedence */
         @media (max-width: 1200px) {
             .metrics-grid {
@@ -837,6 +866,30 @@
             .registry-table th, .registry-table td {
                 padding: 1rem 0.75rem;
                 font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .registry-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1.25rem;
+            }
+            .registry-controls {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                gap: 1rem;
+            }
+            .registry-tabs {
+                justify-content: center;
+                width: 100%;
+            }
+            .add-student-btn {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 1.5rem;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -1098,16 +1151,16 @@
         <!-- Student Registry Section -->
         <div id="registry-section" class="dashboard-section" style="display: none;">
             <div class="table-area" style="width: 100%;">
-                <div class="table-header" style="flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+                <div class="table-header registry-header">
                     <h3>Registry Database</h3>
-                    <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div class="registry-controls">
                         <!-- Status filter tabs -->
-                        <div class="section-tabs" style="border: none; padding: 0; margin: 0; gap: 0.5rem;">
-                            <button class="tab-btn active" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;" onclick="window.location.href='404.html'">All</button>
-                            <button class="tab-btn" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;" onclick="window.location.href='404.html'">Active</button>
-                            <button class="tab-btn" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;" onclick="window.location.href='404.html'">Inactive</button>
+                        <div class="section-tabs registry-tabs">
+                            <button class="tab-btn active" onclick="filterRegistry(event, 'all')">All</button>
+                            <button class="tab-btn" onclick="filterRegistry(event, 'active')">Active</button>
+                            <button class="tab-btn" onclick="filterRegistry(event, 'inactive')">Inactive</button>
                         </div>
-                        <button class="btn-resume" style="padding: 0.6rem 1.2rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">+ Add Student</button>
+                        <button class="btn-resume add-student-btn" onclick="openAddStudentModal()">+ Add Student</button>
                     </div>
                 </div>
 
@@ -1130,7 +1183,7 @@
                                 <td>Machine Learning</td>
                                 <td>68%</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="deleteStudent(event, 'Sarah Chen')">Remove</a></td>
                             </tr>
                             <tr data-status="active">
                                 <td>James Carter</td>
@@ -1138,7 +1191,7 @@
                                 <td>Full-Stack Web Dev</td>
                                 <td>42%</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="deleteStudent(event, 'James Carter')">Remove</a></td>
                             </tr>
                             <tr data-status="inactive">
                                 <td>Aisha Patel</td>
@@ -1146,7 +1199,7 @@
                                 <td>Data Science</td>
                                 <td>100%</td>
                                 <td><span class="status-badge inactive">Inactive</span></td>
-                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="deleteStudent(event, 'Aisha Patel')">Remove</a></td>
                             </tr>
                             <tr data-status="active">
                                 <td>David Park</td>
@@ -1154,7 +1207,7 @@
                                 <td>Full-Stack Web Dev</td>
                                 <td>24%</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="deleteStudent(event, 'David Park')">Remove</a></td>
                             </tr>
                             <tr data-status="active">
                                 <td>Elena Vasquez</td>
@@ -1162,7 +1215,7 @@
                                 <td>UI/UX Design</td>
                                 <td>10%</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="deleteStudent(event, 'Elena Vasquez')">Remove</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1175,7 +1228,7 @@
             <div class="table-area" style="width: 100%; margin-bottom: 2rem;">
                 <div class="table-header" style="margin-bottom: 2rem;">
                     <h3>Course Management</h3>
-                    <button class="btn-resume" style="padding: 0.6rem 1.2rem; font-size: 0.7rem; margin: 0;" onclick="window.location.href='404.html'">+ Add New Course</button>
+                    <button class="btn-resume" style="padding: 0.6rem 1.2rem; font-size: 0.7rem; margin: 0;" onclick="openAddCourseModal()">+ Add New Course</button>
                 </div>
                 
                 <div class="registry-table-wrapper">
@@ -1197,7 +1250,7 @@
                                 <td>412 Students</td>
                                 <td>20 Weeks</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="toggleCourseStatus(event)">Draft</a></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 700;">Full-Stack Web Masterclass</td>
@@ -1205,7 +1258,7 @@
                                 <td>580 Students</td>
                                 <td>24 Weeks</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="toggleCourseStatus(event)">Draft</a></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 700;">UI/UX Design Systems in Figma</td>
@@ -1213,7 +1266,7 @@
                                 <td>256 Students</td>
                                 <td>12 Weeks</td>
                                 <td><span class="status-badge active">Active</span></td>
-                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="toggleCourseStatus(event)">Draft</a></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 700;">Data Science &amp; Analysis bootcamp</td>
@@ -1221,7 +1274,7 @@
                                 <td>0 Students</td>
                                 <td>16 Weeks</td>
                                 <td><span class="status-badge inactive" style="background-color: rgba(255, 149, 0, 0.1); color: #ff9500;">Draft</span></td>
-                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Publish</a></td>
+                                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="toggleCourseStatus(event)">Publish</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -1605,7 +1658,7 @@
                 <td>${course}</td>
                 <td>0%</td>
                 <td><span class="status-badge active">Active</span></td>
-                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Remove</a></td>
+                <td><a href="#" style="color: var(--error-color); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="deleteStudent(event, '${name}')">Remove</a></td>
             `;
             registryTable.appendChild(row);
 
@@ -1671,7 +1724,7 @@
                 <td>0 Students</td>
                 <td>${duration} Weeks</td>
                 <td><span class="status-badge active">Active</span></td>
-                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="window.location.href='404.html'">Draft</a></td>
+                <td><a href="#" style="color: var(--primary-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;" onclick="toggleCourseStatus(event)">Draft</a></td>
             `;
             coursesTable.appendChild(row);
 
