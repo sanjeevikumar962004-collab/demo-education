@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stackly. | Online Education</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #ffffff;
@@ -38,7 +40,9 @@
         }
 
         /* Initial state before load */
-        header, .hero h1, .hero p {
+        header,
+        .hero h1,
+        .hero p {
             opacity: 0;
         }
 
@@ -55,13 +59,25 @@
         }
 
         @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* Loader */
@@ -92,9 +108,17 @@
         }
 
         @keyframes liquidText {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* Navigation */
@@ -157,7 +181,8 @@
             padding-bottom: 5px;
         }
 
-        .menu-links a.active::after, .menu-links a:hover::after {
+        .menu-links a.active::after,
+        .menu-links a:hover::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -171,14 +196,14 @@
             display: flex;
             gap: 1rem;
         }
-        
+
         .social-icons svg {
             width: 18px;
             height: 18px;
             cursor: pointer;
             transition: opacity 0.3s ease;
         }
-        
+
         .social-icons svg:hover {
             opacity: 0.5;
         }
@@ -234,7 +259,8 @@
             transition: color 0.3s ease;
         }
 
-        .mobile-nav-links a:hover, .mobile-nav-links a.active {
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
             color: var(--gray-color);
         }
 
@@ -283,8 +309,15 @@
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         .hero p {
@@ -378,7 +411,7 @@
             width: 100%;
             text-align: center;
             z-index: 2;
-            text-shadow: 0px 4px 15px rgba(0,0,0,0.4);
+            text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
             pointer-events: none;
         }
 
@@ -431,7 +464,7 @@
         }
 
         /* --- PREMIUM SECTIONS --- */
-        
+
         .section-padding {
             padding: 10rem 4rem;
             max-width: 1400px;
@@ -563,8 +596,13 @@
         }
 
         @keyframes marqueeScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         /* Journey Timeline Section */
@@ -589,7 +627,8 @@
 
         .timeline {
             position: relative;
-            max-width: 1000px; /* Widened for dual column */
+            max-width: 1000px;
+            /* Widened for dual column */
             margin: 0 auto;
         }
 
@@ -609,7 +648,7 @@
             transform: translateX(-50%);
             top: 0;
             width: 2px;
-            height: 0%; 
+            height: 0%;
             background: var(--text-color);
             transition: height 0.8s ease;
         }
@@ -952,7 +991,8 @@
             margin-bottom: 0.5rem;
         }
 
-        .footer-info p, .footer-info a {
+        .footer-info p,
+        .footer-info a {
             color: var(--gray-color);
             font-size: 1rem;
             line-height: 1.6;
@@ -998,78 +1038,242 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            header { padding: 1.5rem 2rem; }
-            .email-link, .menu-links, .social-icons { display: none; }
-            .mobile-menu-btn { display: block; }
+            header {
+                padding: 1.5rem 2rem;
+            }
+
+            .email-link,
+            .menu-links,
+            .social-icons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
 
             .hero {
                 background-attachment: scroll;
                 padding: 12rem 0 10rem 0;
             }
+
             .hero-inner {
                 padding: 0 2rem;
             }
 
-            .hero h1 { font-size: 4rem; }
-            .slide { min-width: calc(50% - 1rem); }
-            
-            .vision-grid { gap: 3rem; }
-            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-            .metric-item:nth-child(2) { border-right: none; }
-            .metric-item:nth-child(1), .metric-item:nth-child(2) { border-bottom: 1px solid var(--border-color); }
-            
-            .footer-top { grid-template-columns: 1fr 1fr; }
-            .footer-heading { grid-column: span 2; }
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .slide {
+                min-width: calc(50% - 1rem);
+            }
+
+            .vision-grid {
+                gap: 3rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .metric-item:nth-child(2) {
+                border-right: none;
+            }
+
+            .metric-item:nth-child(1),
+            .metric-item:nth-child(2) {
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-heading {
+                grid-column: span 2;
+            }
         }
 
         @media (max-width: 768px) {
-            
-            .hero { padding: 10rem 0 8rem 0; }
-            .hero h1 { font-size: 9vw; letter-spacing: -1px; line-height: 1.1; } 
-            .loader-text { font-size: 6vw; }
-            .hero p { font-size: 1rem; }
 
-            .slider-section { padding: 0 2rem 2rem 2rem; }
-            .slider-bg-text { font-size: 24vw; top: 40%; } 
-            .slide { min-width: 100%; padding: 0; }
-            .slide-title { font-size: 2.5rem; }
-            .slide-number { font-size: 2rem; }
-            
-            .section-padding { padding: 6rem 2rem; }
-            .vision-grid { grid-template-columns: 1fr; gap: 4rem; }
-            .features-grid { grid-template-columns: 1fr; gap: 3rem; }
-            
-            .journey-section { padding: 6rem 2rem; }
-            .timeline-item { flex-direction: column; align-items: flex-start; padding-left: 50px; margin-bottom: 4rem; }
-            .timeline-line, .timeline-progress { left: 10px; transform: none; }
-            .timeline-dot { left: 10px; top: 30px; transform: translate(-50%, -50%); }
-            .timeline-svg-wrapper { width: 100%; justify-content: flex-start; padding-right: 0; margin-bottom: 1.5rem; }
-            .timeline-svg-wrapper svg { width: 60px; height: 60px; transform: translateX(-20px) scale(0.8); }
-            .timeline-content { width: 100%; padding-left: 0; }
-            .timeline-content h3 { font-size: 1.5rem; }
+            .hero {
+                padding: 10rem 0 8rem 0;
+            }
 
-            .metrics-grid { grid-template-columns: 1fr; border-right: none; border-left: none; }
-            .metric-item { border-right: none; border-bottom: 1px solid var(--border-color); padding: 3rem 2rem; }
-            .metric-item:last-child { border-bottom: none; }
-            
-            .testimonial-section { padding: 6rem 2rem; }
-            .testimonial-carousel { min-height: 300px; }
-            .cta-section { padding: 6rem 2rem; }
+            .hero h1 {
+                font-size: 9vw;
+                letter-spacing: -1px;
+                line-height: 1.1;
+            }
 
-            .partners { gap: 2rem; padding: 3rem 2rem; }
-            .partner-logo { font-size: 1.2rem; }
+            .loader-text {
+                font-size: 6vw;
+            }
 
-            footer { padding: 4rem 2rem 2rem 2rem; }
-            .footer-top { grid-template-columns: 1fr; gap: 3rem; }
-            .footer-heading { grid-column: span 1; font-size: 3rem; }
-            .footer-bottom { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
-            
-            .mobile-socials { display: flex; gap: 1.5rem; align-items: center; }
-            .mobile-socials a { color: inherit; transition: transform 0.3s, opacity 0.3s; display: inline-flex; align-items: center; }
-            .mobile-socials a:hover { transform: translateY(-2px); opacity: 0.7; }
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .slider-section {
+                padding: 0 2rem 2rem 2rem;
+            }
+
+            .slider-bg-text {
+                font-size: 24vw;
+                top: 40%;
+            }
+
+            .slide {
+                min-width: 100%;
+                padding: 0;
+            }
+
+            .slide-title {
+                font-size: 2.5rem;
+            }
+
+            .slide-number {
+                font-size: 2rem;
+            }
+
+            .section-padding {
+                padding: 6rem 2rem;
+            }
+
+            .vision-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .journey-section {
+                padding: 6rem 2rem;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 50px;
+                margin-bottom: 4rem;
+            }
+
+            .timeline-line,
+            .timeline-progress {
+                left: 10px;
+                transform: none;
+            }
+
+            .timeline-dot {
+                left: 10px;
+                top: 30px;
+                transform: translate(-50%, -50%);
+            }
+
+            .timeline-svg-wrapper {
+                width: 100%;
+                justify-content: flex-start;
+                padding-right: 0;
+                margin-bottom: 1.5rem;
+            }
+
+            .timeline-svg-wrapper svg {
+                width: 60px;
+                height: 60px;
+                transform: translateX(-20px) scale(0.8);
+            }
+
+            .timeline-content {
+                width: 100%;
+                padding-left: 0;
+            }
+
+            .timeline-content h3 {
+                font-size: 1.5rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                border-right: none;
+                border-left: none;
+            }
+
+            .metric-item {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 3rem 2rem;
+            }
+
+            .metric-item:last-child {
+                border-bottom: none;
+            }
+
+            .testimonial-section {
+                padding: 6rem 2rem;
+            }
+
+            .testimonial-carousel {
+                min-height: 300px;
+            }
+
+            .cta-section {
+                padding: 6rem 2rem;
+            }
+
+            .partners {
+                gap: 2rem;
+                padding: 3rem 2rem;
+            }
+
+            .partner-logo {
+                font-size: 1.2rem;
+            }
+
+            footer {
+                padding: 4rem 2rem 2rem 2rem;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-heading {
+                grid-column: span 1;
+                font-size: 3rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: flex-start;
+            }
+
+            .mobile-socials {
+                display: flex;
+                gap: 1.5rem;
+                align-items: center;
+            }
+
+            .mobile-socials a {
+                color: inherit;
+                transition: transform 0.3s, opacity 0.3s;
+                display: inline-flex;
+                align-items: center;
+            }
+
+            .mobile-socials a:hover {
+                transform: translateY(-2px);
+                opacity: 0.7;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Loader -->
@@ -1080,9 +1284,14 @@
     <!-- Navigation -->
     <header>
         <div class="nav-left">
-            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly."
+                    style="height: 32px; vertical-align: middle;"></a>
             <a href="404.html" class="email-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
                 hello@stackly.com
             </a>
         </div>
@@ -1096,12 +1305,28 @@
                 <a href="login.html">LOGIN</a>
             </nav>
             <div class="social-icons">
-                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
-                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                    </svg></a>
+                <a href="404.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg></a>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
             </button>
         </div>
     </header>
@@ -1122,18 +1347,20 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-inner">
-                <h1>We are an Online Education Platform<br>focused on <span id="typewriter"></span><span class="typing-cursor">|</span></h1>
-                <p>Browse our top-tier courses below and start your journey towards excellence with our world-class educators and practical syllabus.</p>
+                <h1>We are an Online Education Platform<br>focused on <span id="typewriter"></span><span
+                        class="typing-cursor">|</span></h1>
+                <p>Browse our top-tier courses below and start your journey towards excellence with our world-class
+                    educators and practical syllabus.</p>
             </div>
         </section>
 
         <!-- Educators Slider Section -->
         <section class="slider-section">
             <div class="slider-bg-text" id="sliderBgText">Sarah</div>
-            
+
             <div class="slider-container">
                 <div class="slider-track" id="sliderTrack">
-                    
+
                     <!-- Slide 1 -->
                     <div class="slide">
                         <div class="slide-number">01</div>
@@ -1158,7 +1385,7 @@
                     <div class="slide">
                         <div class="slide-number">03</div>
                         <div class="slide-image-wrapper">
-                            <img src="images/elena.webp" alt="Educator" style="object-position: 80% center;">
+                            <img src="./images/p3.webp" alt="Educator" style="object-position: 83% center;">
                             <h2 class="slide-title">Elena</h2>
                         </div>
                         <div class="slide-meta">UI/UX Design</div>
@@ -1189,10 +1416,16 @@
 
             <div class="slider-nav">
                 <button class="slider-btn" id="prevBtn" disabled>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
                 </button>
                 <button class="slider-btn" id="nextBtn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </button>
             </div>
         </section>
@@ -1202,8 +1435,11 @@
             <div class="vision-grid">
                 <div class="vision-text">
                     <h2>Redefining<br>Education.</h2>
-                    <p>Stackly is more than just a platform; it's a movement towards accessible, high-quality tech education. We partner with industry leaders to bring you curriculums that actually matter in the real world.</p>
-                    <p>Forget outdated textbooks. Learn by building, collaborating, and solving complex problems with the guidance of experts who have been exactly where you are.</p>
+                    <p>Stackly is more than just a platform; it's a movement towards accessible, high-quality tech
+                        education. We partner with industry leaders to bring you curriculums that actually matter in the
+                        real world.</p>
+                    <p>Forget outdated textbooks. Learn by building, collaborating, and solving complex problems with
+                        the guidance of experts who have been exactly where you are.</p>
                 </div>
                 <div class="vision-image">
                     <img src="images/home 1.webp" alt="Students collaborating">
@@ -1216,24 +1452,42 @@
             <div class="section-padding features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
                     </div>
                     <h3>Layered Learning</h3>
-                    <p>Progress through meticulously structured modules designed to take you from absolute beginner to industry-ready professional seamlessly.</p>
+                    <p>Progress through meticulously structured modules designed to take you from absolute beginner to
+                        industry-ready professional seamlessly.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
                     </div>
                     <h3>Paced For You</h3>
-                    <p>Access lifetime content and learn at your own rhythm. Whether you are balancing a full-time job or studying full-time, Stackly adapts to you.</p>
+                    <p>Access lifetime content and learn at your own rhythm. Whether you are balancing a full-time job
+                        or studying full-time, Stackly adapts to you.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
                     </div>
                     <h3>Global Community</h3>
-                    <p>Join thousands of active learners around the world. Share projects, get feedback, and network with future colleagues in our dedicated spaces.</p>
+                    <p>Join thousands of active learners around the world. Share projects, get feedback, and network
+                        with future colleagues in our dedicated spaces.</p>
                 </div>
             </div>
         </section>
@@ -1243,23 +1497,37 @@
             <div class="marquee-container">
                 <!-- Group 1 -->
                 <div class="marquee-content">
-                    <span>PYTHON</span> <div class="marquee-dot"></div>
-                    <span>REACT.JS</span> <div class="marquee-dot"></div>
-                    <span>NODE.JS</span> <div class="marquee-dot"></div>
-                    <span>TENSORFLOW</span> <div class="marquee-dot"></div>
-                    <span>AWS</span> <div class="marquee-dot"></div>
-                    <span>UI/UX</span> <div class="marquee-dot"></div>
-                    <span>DOCKER</span> <div class="marquee-dot"></div>
+                    <span>PYTHON</span>
+                    <div class="marquee-dot"></div>
+                    <span>REACT.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>NODE.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>TENSORFLOW</span>
+                    <div class="marquee-dot"></div>
+                    <span>AWS</span>
+                    <div class="marquee-dot"></div>
+                    <span>UI/UX</span>
+                    <div class="marquee-dot"></div>
+                    <span>DOCKER</span>
+                    <div class="marquee-dot"></div>
                 </div>
                 <!-- Group 2 (Duplicate for seamless loop) -->
                 <div class="marquee-content">
-                    <span>PYTHON</span> <div class="marquee-dot"></div>
-                    <span>REACT.JS</span> <div class="marquee-dot"></div>
-                    <span>NODE.JS</span> <div class="marquee-dot"></div>
-                    <span>TENSORFLOW</span> <div class="marquee-dot"></div>
-                    <span>AWS</span> <div class="marquee-dot"></div>
-                    <span>UI/UX</span> <div class="marquee-dot"></div>
-                    <span>DOCKER</span> <div class="marquee-dot"></div>
+                    <span>PYTHON</span>
+                    <div class="marquee-dot"></div>
+                    <span>REACT.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>NODE.JS</span>
+                    <div class="marquee-dot"></div>
+                    <span>TENSORFLOW</span>
+                    <div class="marquee-dot"></div>
+                    <span>AWS</span>
+                    <div class="marquee-dot"></div>
+                    <span>UI/UX</span>
+                    <div class="marquee-dot"></div>
+                    <span>DOCKER</span>
+                    <div class="marquee-dot"></div>
                 </div>
             </div>
         </section>
@@ -1272,10 +1540,11 @@
             <div class="timeline" id="timelineContainer">
                 <div class="timeline-line"></div>
                 <div class="timeline-progress" id="timelineProgress"></div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-svg-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="16 18 22 12 16 6"></polyline>
                             <polyline points="8 6 2 12 8 18"></polyline>
                             <line x1="14" y1="3" x2="10" y2="21"></line>
@@ -1284,13 +1553,15 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <h3>1. Foundation & Logic</h3>
-                        <p>Master the basics of programming, data structures, and algorithmic thinking. Build a rock-solid foundation that will make learning any framework easier in the future.</p>
+                        <p>Master the basics of programming, data structures, and algorithmic thinking. Build a
+                            rock-solid foundation that will make learning any framework easier in the future.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-svg-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                             <polyline points="2 17 12 22 22 17"></polyline>
                             <polyline points="2 12 12 17 22 12"></polyline>
@@ -1299,15 +1570,21 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <h3>2. Advanced Specialization</h3>
-                        <p>Dive deep into your chosen track—whether it's building scalable backend architectures, creating fluid frontend interfaces, or training predictive AI models.</p>
+                        <p>Dive deep into your chosen track—whether it's building scalable backend architectures,
+                            creating fluid frontend interfaces, or training predictive AI models.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-svg-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z">
+                            </path>
+                            <path
+                                d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z">
+                            </path>
                             <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
                             <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
                         </svg>
@@ -1315,13 +1592,15 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <h3>3. Real-World Projects</h3>
-                        <p>Leave the sandbox. You will collaborate with peers using Git, participate in code reviews, and build live production-ready applications for your portfolio.</p>
+                        <p>Leave the sandbox. You will collaborate with peers using Git, participate in code reviews,
+                            and build live production-ready applications for your portfolio.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <div class="timeline-svg-wrapper">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="8" r="7"></circle>
                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                         </svg>
@@ -1329,7 +1608,8 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <h3>4. Career Launch</h3>
-                        <p>Receive 1-on-1 mentorship, resume revamps, and intensive mock interviews. Get introduced directly to our hiring partners and step into your new role confidently.</p>
+                        <p>Receive 1-on-1 mentorship, resume revamps, and intensive mock interviews. Get introduced
+                            directly to our hiring partners and step into your new role confidently.</p>
                     </div>
                 </div>
             </div>
@@ -1360,15 +1640,18 @@
             <span class="quote-mark">"</span>
             <div class="testimonial-carousel" id="testimonialCarousel">
                 <div class="testimonial-slide active">
-                    <p class="testimonial-text">Stackly fundamentally changed the trajectory of my career. The mentors don't just teach theory; they teach you how to build real products.</p>
+                    <p class="testimonial-text">Stackly fundamentally changed the trajectory of my career. The mentors
+                        don't just teach theory; they teach you how to build real products.</p>
                     <span class="testimonial-author">James Carter &mdash; Senior Engineer @ TechFlow</span>
                 </div>
                 <div class="testimonial-slide">
-                    <p class="testimonial-text">The layered learning approach helped me transition from a total beginner to landing a junior developer role in just 6 months.</p>
+                    <p class="testimonial-text">The layered learning approach helped me transition from a total beginner
+                        to landing a junior developer role in just 6 months.</p>
                     <span class="testimonial-author">Aisha Patel &mdash; Junior Dev @ CreativeHub</span>
                 </div>
                 <div class="testimonial-slide">
-                    <p class="testimonial-text">I've tried many platforms, but the global community and perfectly paced modules here are unmatched. Highly recommended.</p>
+                    <p class="testimonial-text">I've tried many platforms, but the global community and perfectly paced
+                        modules here are unmatched. Highly recommended.</p>
                     <span class="testimonial-author">Marcus Johnson &mdash; Freelance Designer</span>
                 </div>
             </div>
@@ -1402,7 +1685,7 @@
             <div class="footer-heading">
                 LET'S WORK<br>TOGETHER
             </div>
-            
+
             <div class="footer-links">
                 <h4>Navigation</h4>
                 <ul>
@@ -1425,35 +1708,68 @@
                 <h4>Connect</h4>
                 <div class="footer-social-icons">
                     <a href="404.html" aria-label="Twitter">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                        </svg>
                     </a>
                     <a href="404.html" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
                     </a>
                     <a href="404.html" aria-label="Instagram">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
                     </a>
                     <a href="404.html" aria-label="GitHub">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg>
                     </a>
                 </div>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly." style="height: 32px; vertical-align: middle;"></a>
+            <a href="index.html" class="logo"><img src="images/whitelogo.webp" alt="Stackly."
+                    style="height: 32px; vertical-align: middle;"></a>
             <div class="copyright">
-                ©  2026 STACKLY EDUCATION™
+                © 2026 STACKLY EDUCATION™
             </div>
             <div class="mobile-socials" style="display: none; gap: 1.5rem; align-items: center;">
                 <a href="404.html" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; display: block;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" style="width: 16px; height: 16px; display: block;">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
                 </a>
                 <a href="404.html" aria-label="Twitter">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; display: block;"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" style="width: 16px; height: 16px; display: block;">
+                        <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                    </svg>
                 </a>
                 <a href="404.html" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px; display: block;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" style="width: 16px; height: 16px; display: block;">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
                 </a>
             </div>
         </div>
@@ -1464,13 +1780,13 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('loader');
-                
+
                 loader.style.opacity = '0';
-                
+
                 setTimeout(() => {
                     loader.style.display = 'none';
                     document.body.classList.add('loaded');
-                    
+
                     setTimeout(() => {
                         const typeWriterElement = document.getElementById('typewriter');
                         if (typeWriterElement) {
@@ -1479,8 +1795,8 @@
                         }
                     }, 800);
 
-                }, 600); 
-            }, 2000); 
+                }, 600);
+            }, 2000);
         });
 
         // 2. Typewriter Effect
@@ -1491,7 +1807,7 @@
 
         function typingEffect() {
             let word = words[i].split("");
-            var loopTyping = function() {
+            var loopTyping = function () {
                 if (word.length > 0) {
                     typeWriterElement.innerHTML += word.shift();
                 } else {
@@ -1505,7 +1821,7 @@
 
         function deletingEffect() {
             let word = words[i].split("");
-            var loopDeleting = function() {
+            var loopDeleting = function () {
                 if (word.length > 0) {
                     word.pop();
                     typeWriterElement.innerHTML = word.join("");
@@ -1515,7 +1831,7 @@
                     } else {
                         i = 0;
                     }
-                    setTimeout(typingEffect, 600); 
+                    setTimeout(typingEffect, 600);
                     return false;
                 }
                 timer = setTimeout(loopDeleting, 50);
@@ -1526,16 +1842,16 @@
         // 3. Mobile Menu Logic
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        
+
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
-            
-            if(mobileMenu.classList.contains('active')) {
+
+            if (mobileMenu.classList.contains('active')) {
                 mobileMenuBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
-                document.body.style.overflow = 'hidden'; 
+                document.body.style.overflow = 'hidden';
             } else {
                 mobileMenuBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
-                document.body.style.overflow = ''; 
+                document.body.style.overflow = '';
             }
         });
 
@@ -1554,26 +1870,26 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const bgTextEl = document.getElementById('sliderBgText');
-        
+
         let currentIndex = 0;
 
         function updateSlider() {
             const isMobile = window.innerWidth <= 768;
             const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
-            
+
             let visibleSlides = 3;
             if (isMobile) visibleSlides = 1;
             else if (isTablet) visibleSlides = 2;
 
             const maxIndex = slides.length - visibleSlides;
-            
+
             if (currentIndex > maxIndex) {
                 currentIndex = Math.max(0, maxIndex);
             }
 
             const slideWidth = slides[0].getBoundingClientRect().width;
             const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
-            
+
             const moveAmount = (slideWidth + gap) * currentIndex;
             track.style.transform = `translateX(-${moveAmount}px)`;
 
@@ -1585,17 +1901,17 @@
             if (!isMobile && !isTablet && slides.length > currentIndex + 1) {
                 activeIndex = currentIndex + 1; // Middle item for desktop
             }
-            
+
             const activeSlide = slides[activeIndex];
             if (activeSlide) {
                 const title = activeSlide.querySelector('.slide-title').innerText;
-                
+
                 if (bgTextEl.innerText !== title) {
                     bgTextEl.style.opacity = '0';
                     setTimeout(() => {
                         bgTextEl.innerText = title;
                         bgTextEl.style.opacity = '1';
-                    }, 300); 
+                    }, 300);
                 }
             }
         }
@@ -1608,7 +1924,7 @@
             else if (isTablet) visibleSlides = 2;
 
             const maxIndex = slides.length - visibleSlides;
-            
+
             if (currentIndex < maxIndex) {
                 currentIndex++;
                 updateSlider();
@@ -1624,7 +1940,7 @@
 
         window.addEventListener('resize', () => {
             const socials = document.querySelector('.mobile-socials');
-            if(window.innerWidth <= 1024) socials.style.display = 'flex';
+            if (window.innerWidth <= 1024) socials.style.display = 'flex';
             else socials.style.display = 'none';
 
             updateSlider();
@@ -1637,10 +1953,10 @@
         // 5. Timeline Scroll Animation
         const timelineItems = document.querySelectorAll('.timeline-item');
         const timelineProgress = document.getElementById('timelineProgress');
-        
+
         const timelineObserver = new IntersectionObserver((entries) => {
             let visibleCount = 0;
-            
+
             timelineItems.forEach((item, index) => {
                 const rect = item.getBoundingClientRect();
                 if (rect.top < window.innerHeight * 0.85) {
@@ -1660,10 +1976,10 @@
         });
 
         window.addEventListener('scroll', () => {
-             timelineObserver.takeRecords(); 
-             
-             let visibleCount = 0;
-             timelineItems.forEach((item, index) => {
+            timelineObserver.takeRecords();
+
+            let visibleCount = 0;
+            timelineItems.forEach((item, index) => {
                 const rect = item.getBoundingClientRect();
                 if (rect.top < window.innerHeight * 0.85) {
                     item.classList.add('in-view');
@@ -1707,7 +2023,7 @@
                     };
 
                     updateCounter();
-                    observer.unobserve(entry.target); 
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
@@ -1725,7 +2041,7 @@
         function showTestimonial(index) {
             testSlidesHTML.forEach(slide => slide.classList.remove('active'));
             testDotsHTML.forEach(dot => dot.classList.remove('active'));
-            
+
             testSlidesHTML[index].classList.add('active');
             testDotsHTML[index].classList.add('active');
             currentTest = index;
@@ -1752,4 +2068,5 @@
 
     </script>
 </body>
+
 </html>
